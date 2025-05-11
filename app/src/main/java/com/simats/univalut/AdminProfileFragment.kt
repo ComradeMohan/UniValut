@@ -1,0 +1,111 @@
+package com.simats.univalut
+
+import android.os.Bundle
+import android.text.InputType
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import org.json.JSONException
+
+class AdminProfileFragment : Fragment() {
+
+    private var adminId: String? = null
+
+    companion object {
+        fun newInstance(adminId: String): AdminProfileFragment {
+            val fragment = AdminProfileFragment()
+            val args = Bundle()
+            args.putString("admin_id", adminId)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_admin_profile, container, false)
+
+        adminId = arguments?.getString("admin_id")
+
+        // Fetch real data
+        fetchAdminDetails(adminId, view)
+
+        // Enable edit mode toggle for each field
+        val editableFields = listOf(
+            Pair(R.id.etName, R.id.btnEditName),
+            Pair(R.id.etEmail, R.id.btnEditEmail),
+            Pair(R.id.etPhone, R.id.btnEditPhone),
+            Pair(R.id.etDepartment, R.id.btnEditDepartment),
+            Pair(R.id.etEmployeeId, R.id.btnEditEmployeeId)
+        )
+
+        editableFields.forEach { (editTextId, buttonId) ->
+            val editText = view.findViewById<EditText>(editTextId)
+            val editButton = view.findViewById<ImageButton>(buttonId)
+
+            editText.inputType = InputType.TYPE_CLASS_TEXT
+            editText.isEnabled = false
+
+            editButton.setOnClickListener {
+                editText.isEnabled = !editText.isEnabled
+                if (editText.isEnabled) {
+                    editText.requestFocus()
+                    editText.setSelection(editText.text.length)
+                }
+            }
+        }
+
+        return view
+    }
+
+    private fun fetchAdminDetails(adminId: String?, view: View) {
+        if (adminId == null) return
+
+        val url = "http://192.168.103.54/UniValut/get_admin_details.php?admin_id=$adminId"
+        val requestQueue = Volley.newRequestQueue(requireContext())
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET, url, null,
+            { response ->
+                try {
+                    // Optional: if your response is not wrapped in {"success":true, "data":{...}}
+                    val name = response.getString("name")
+                    val email = response.getString("email")
+                    val phone = response.getString("phone_number")
+                    val employeeId = response.getString("employee_id")
+                    val college = response.optString("college", "N/A")
+
+                    view.findViewById<TextView>(R.id.tvAdminName)?.text = name
+                    view.findViewById<EditText>(R.id.etName)?.setText(name)
+                    view.findViewById<EditText>(R.id.etEmail)?.setText(email)
+                    view.findViewById<EditText>(R.id.etPhone)?.setText(phone)
+                    view.findViewById<EditText>(R.id.etDepartment)?.setText(college)  // using 'college' as dept
+                    view.findViewById<EditText>(R.id.etEmployeeId)?.setText(employeeId)
+
+                    view?.findViewById<TextView>(R.id.tvEmail)?.text = email
+                    view?.findViewById<TextView>(R.id.tvPhone)?.text = phone
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    Toast.makeText(requireContext(), "Error parsing admin data", Toast.LENGTH_SHORT).show()
+                }
+            },
+            { error ->
+                error.printStackTrace()
+                Toast.makeText(requireContext(), "Failed to fetch admin details", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+        requestQueue.add(jsonObjectRequest)
+    }
+}
