@@ -31,7 +31,7 @@ class StudentDashboardActivity : AppCompatActivity() {
                 R.id.nav_home -> replaceFragment(HomeFragment1.newInstance(ID ?: ""))
                 R.id.nav_courses -> replaceFragment(CourseFragment.newInstance(ID ?: ""))
 
-                R.id.nav_schedule -> replaceFragment(StudentCalenderFragment())
+                R.id.nav_schedule -> replaceFragment(StudentCalenderFragment.newInstance(ID ?: ""))
                 R.id.nav_profile -> replaceFragment(ProfileFragment.newInstance(ID ?: ""))
             }
             true

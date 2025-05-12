@@ -1,42 +1,32 @@
 package com.simats.univalut
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import org.json.JSONArray
 import java.time.LocalDate
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [StudentCalenderFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class StudentCalenderFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-
+    private var studentID: String? = null
+    private var collegeName: String? = null
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var eventAdapter: EventAdapter
     private val eventList = mutableListOf<Event>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            studentID = it.getString("studentID") // Retrieve studentID from arguments
         }
     }
 
@@ -53,51 +43,86 @@ class StudentCalenderFragment : Fragment() {
         eventAdapter = EventAdapter(eventList)
         recyclerView.adapter = eventAdapter
 
-        fetchEvents()
+        // Fetch student name and college
+        studentID?.let { fetchStudentName(it) }
 
         return view
     }
-    private fun fetchEvents() {
-        // TODO: Replace with actual backend/API call
-        eventList.clear()
 
-        // Simulated event data with start and end dates
-        eventList.add(Event(
-            title = "Model Exam",
-            type = "Exam",
-            startDate = LocalDate.of(2025, 5, 10),
-            endDate = LocalDate.of(2025, 5, 10),
-            description = "End-of-semester model exam for all students"
-        ))
+    private fun fetchStudentName(studentID: String) {
+        val url = "http://192.168.103.54/UniValut/fetch_student_name.php?studentID=$studentID" // Adjust the URL
 
-        eventList.add(Event(
-            title = "Workshop on AI",
-            type = "Workshop",
-            startDate = LocalDate.of(2025, 5, 15),
-            endDate = LocalDate.of(2025, 5, 15),
-            description = "A workshop on the latest trends in AI and machine learning."
-        ))
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET, url, null,
+            { response ->
+                val success = response.getBoolean("success")
+                if (success) {
+                    val name = response.getString("name")
+                    collegeName = response.getString("college")
+                    // Log the name and college for debugging purposes
+                    Toast.makeText(requireContext(), "Student: $name, College: $collegeName", Toast.LENGTH_SHORT).show()
 
-        eventAdapter.notifyDataSetChanged()
-        Toast.makeText(requireContext(), "Events loaded", Toast.LENGTH_SHORT).show()
+                    // Fetch events after getting the college name
+                    collegeName?.let { fetchEvents(it) }
+                } else {
+                    Toast.makeText(requireContext(), "Student not found", Toast.LENGTH_SHORT).show()
+                }
+            },
+            { error ->
+                Toast.makeText(requireContext(), "Error fetching student data: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+        Volley.newRequestQueue(requireContext()).add(jsonObjectRequest)
+    }
+
+    private fun fetchEvents(collegeName: String) {
+        val url = "http://192.168.103.54/UniValut/getEvents.php?college_name=$collegeName" // Adjust the URL
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET, url, null,
+            { response ->
+                try {
+                    eventList.clear() // Clear any previous data
+
+                    // Assuming the response contains a JSON array under "data" key
+                    val eventsArray: JSONArray = response.getJSONArray("data")
+                    for (i in 0 until eventsArray.length()) {
+                        val eventObj = eventsArray.getJSONObject(i)
+
+                        // Parse event details from the backend response
+                        val title = eventObj.getString("title")
+                        val type = eventObj.getString("type")
+                        val startDate = LocalDate.parse(eventObj.getString("start_date"))
+                        val endDate = LocalDate.parse(eventObj.getString("end_date"))
+                        val description = eventObj.getString("description")
+
+                        // Add event to the list
+                        val event = Event(title, type, startDate, endDate, description)
+                        eventList.add(event)
+                    }
+
+                    // Notify the adapter to update the UI
+                    eventAdapter.notifyDataSetChanged()
+                    Toast.makeText(requireContext(), "Events loaded", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "Error parsing events", Toast.LENGTH_SHORT).show()
+                }
+            },
+            { error ->
+                Toast.makeText(requireContext(), "Error fetching events: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+        Volley.newRequestQueue(requireContext()).add(jsonObjectRequest)
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment StudentCalenderFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(studentID: String) =
             StudentCalenderFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString("studentID", studentID)
                 }
             }
     }

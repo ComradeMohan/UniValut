@@ -28,7 +28,7 @@ class AdminDashboardActivity : AppCompatActivity() {
         // Set bottom navigation listener
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.nav_home -> replaceFragment(AdminHomeFragment())
+                R.id.nav_home -> replaceFragment(AdminHomeFragment.newInstance(ID ?: ""))
                 R.id.nav_courses -> replaceFragment(AdminCoursesFragment.newInstance(ID ?: ""))
 
                 R.id.nav_calender -> replaceFragment(AdminCalenderFragment.newInstance(ID ?: ""))
