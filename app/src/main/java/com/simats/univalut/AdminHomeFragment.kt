@@ -23,6 +23,7 @@ class AdminHomeFragment : Fragment() {
     private var _binding: FragmentAdminHomeBinding? = null
     private val binding get() = _binding!!
     lateinit var context: FragmentActivity
+    private var collegeName: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,10 +76,18 @@ class AdminHomeFragment : Fragment() {
         }
 
         binding.btnUploadFiles.setOnClickListener {
-            Toast.makeText(context, "Upload Files clicked", Toast.LENGTH_SHORT).show()
-            val intent = Intent(context, FacultyMaterialsFragment::class.java)
-            startActivity(intent)
+            val fragment = FacultyMaterialsFragment().apply {
+                arguments = Bundle().apply {
+                    putString("college_name", collegeName) // pass facultyId if needed
+                }
+            }
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
         }
+
     }
 
     // Function to fetch admin details using HTTP GET request
@@ -92,6 +101,7 @@ class AdminHomeFragment : Fragment() {
                     // Get admin details from response
                     val name = response.getString("name")
                     val college = response.getString("college")
+                    collegeName = college
 
                     // Set the text of tvTitle to show admin name and college
                     binding.tvTitle.text = "$name - $college"

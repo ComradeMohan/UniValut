@@ -1,5 +1,6 @@
 package com.simats.univalut
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -71,7 +72,14 @@ class AcadmicRecordActivity : AppCompatActivity() {
         pending.setOnClickListener {
             if (!SID.isNullOrEmpty() && !DID.isNullOrEmpty()) {
                 Toast.makeText(this@AcadmicRecordActivity, "Pending Clicked", Toast.LENGTH_SHORT).show()
-                // TODO: Trigger API call to fetch pending courses here
+
+                // Navigate to the Courses page with SID, DID, and course type as "pending"
+                val intent = Intent(this, StudentGrades::class.java).apply {
+                    putExtra("SID", SID)
+                    putExtra("DID", DID)
+                    putExtra("courseType", "pending") // "pending" or "completed"
+                }
+                startActivity(intent)
             } else {
                 Toast.makeText(this@AcadmicRecordActivity, "Missing Student ID or Department ID", Toast.LENGTH_SHORT).show()
             }
@@ -82,7 +90,14 @@ class AcadmicRecordActivity : AppCompatActivity() {
         completed.setOnClickListener {
             if (!SID.isNullOrEmpty() && !DID.isNullOrEmpty()) {
                 Toast.makeText(this@AcadmicRecordActivity, "Completed Clicked", Toast.LENGTH_SHORT).show()
-                // TODO: Trigger API call to fetch pending courses here
+
+                // Navigate to the Courses page with SID, DID, and course type as "completed"
+                val intent = Intent(this, StudentGrades::class.java).apply {
+                    putExtra("SID", SID)
+                    putExtra("DID", DID)
+                    putExtra("courseType", "completed") // "pending" or "completed"
+                }
+                startActivity(intent)
             } else {
                 Toast.makeText(this@AcadmicRecordActivity, "Missing Student ID or Department ID", Toast.LENGTH_SHORT).show()
             }
