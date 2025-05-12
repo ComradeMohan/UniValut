@@ -26,6 +26,9 @@ class AcadmicRecordActivity : AppCompatActivity() {
     private lateinit var pending: ConstraintLayout
     private lateinit var completed: ConstraintLayout
 
+    private var SID:String? = null
+    private var DID:String? = null
+
 
     private val client = OkHttpClient()
     private var collegeId: String? = null
@@ -42,6 +45,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
         val department = intent.getStringExtra("department")
         val collegeName = intent.getStringExtra("collegeName")
 
+        SID = studentID
         departmentName = department
         // Initialize views
         progressS = findViewById(R.id.progressS)
@@ -60,6 +64,30 @@ class AcadmicRecordActivity : AppCompatActivity() {
         progressC.progress = 15
         progressD.progress = 20
         progressE.progress = 10
+
+
+        pending = findViewById(R.id.pendingCourses) // make sure it's initialized!
+
+        pending.setOnClickListener {
+            if (!SID.isNullOrEmpty() && !DID.isNullOrEmpty()) {
+                Toast.makeText(this@AcadmicRecordActivity, "Pending Clicked", Toast.LENGTH_SHORT).show()
+                // TODO: Trigger API call to fetch pending courses here
+            } else {
+                Toast.makeText(this@AcadmicRecordActivity, "Missing Student ID or Department ID", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        completed = findViewById(R.id.completedCourses) // make sure it's initialized!
+
+        completed.setOnClickListener {
+            if (!SID.isNullOrEmpty() && !DID.isNullOrEmpty()) {
+                Toast.makeText(this@AcadmicRecordActivity, "Completed Clicked", Toast.LENGTH_SHORT).show()
+                // TODO: Trigger API call to fetch pending courses here
+            } else {
+                Toast.makeText(this@AcadmicRecordActivity, "Missing Student ID or Department ID", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
         // Handle button clicks
         downloadButton.setOnClickListener {
@@ -157,6 +185,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
                         val departmentId = json.getString("department_id")
                         runOnUiThread {
                             Toast.makeText(this@AcadmicRecordActivity, "Department ID: $departmentId", Toast.LENGTH_SHORT).show()
+                            DID = departmentId
                             fetchCourses(departmentId) // Call to load course names
                         }
                     }
