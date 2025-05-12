@@ -4,16 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    app:cardElevation="4dp"
-    app:cardCornerRadius="12dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
-        android:id="@+id/coursesListLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:layout_margin="8dp"
         android:background="@drawable/course_item_bg">
 
         <TextView
@@ -21,22 +19,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CSA0123"
-            android:textStyle="bold"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvSubjectName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Subject name"
-            android:textSize="15sp"
-            android:layout_marginTop="4dp" />
+            android:text="Subject Name"
+            android:layout_marginTop="4dp"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tvFacultyName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sarah Johnson"
+            android:text="Faculty Name"
             android:layout_marginTop="4dp" />
 
         <LinearLayout
