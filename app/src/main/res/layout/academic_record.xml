@@ -163,6 +163,7 @@
             app:layout_constraintHorizontal_weight="1">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/completedCourses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -217,6 +218,7 @@
             app:layout_constraintHorizontal_weight="1">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/pendingCourses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"

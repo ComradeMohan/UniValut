@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -21,6 +22,10 @@ class AcadmicRecordActivity : AppCompatActivity() {
     private lateinit var progressE: ProgressBar
     private lateinit var downloadButton: Button
     private lateinit var backButton: ImageView
+
+    private lateinit var pending: ConstraintLayout
+    private lateinit var completed: ConstraintLayout
+
 
     private val client = OkHttpClient()
     private var collegeId: String? = null
@@ -64,6 +69,8 @@ class AcadmicRecordActivity : AppCompatActivity() {
         backButton.setOnClickListener {
             finish()
         }
+
+
 
         // Fetch the college ID
         collegeName?.let {
