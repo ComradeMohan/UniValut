@@ -77,7 +77,8 @@ class AcadmicRecordActivity : AppCompatActivity() {
                 val intent = Intent(this, StudentGrades::class.java).apply {
                     putExtra("SID", SID)
                     putExtra("DID", DID)
-                    putExtra("courseType", "pending") // "pending" or "completed"
+                    putExtra("courseType", "pending")
+                    putExtra("COLLEGE_ID", collegeId)// "pending" or "completed"
                 }
                 startActivity(intent)
             } else {

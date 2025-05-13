@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -26,6 +27,11 @@ class AdminHomeFragment : Fragment() {
     private lateinit var context: FragmentActivity
     private var collegeName: String? = null
 
+
+
+    private lateinit var tvNoticeTitle: TextView
+    private lateinit var tvNoticeDescription: TextView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,8 +41,40 @@ class AdminHomeFragment : Fragment() {
         return binding.root
     }
 
+    private fun fetchLatestNotice(college: String) {
+        val url = "http://192.168.103.54/UniValut/get_latest_notice.php?college=$college"
+        val ctx = context ?: return  // Safely get context or return if fragment is not attached
+        val queue = Volley.newRequestQueue(ctx)
+
+        val jsonObjectRequest = JsonObjectRequest(
+            com.android.volley.Request.Method.GET, url, null,
+            { response ->
+                if (!isAdded) return@JsonObjectRequest  // Fragment no longer valid
+                val success = response.getBoolean("success")
+                if (success) {
+                    val title = response.getString("title")
+                    val description = response.getString("description")
+                    tvNoticeTitle.text = title
+                    tvNoticeDescription.text = description
+                } else {
+                    tvNoticeTitle.text = "No Notices"
+                    tvNoticeDescription.text = ""
+                }
+            },
+            {
+                if (!isAdded) return@JsonObjectRequest
+                tvNoticeTitle.text = "Error"
+                tvNoticeDescription.text = "Failed to fetch notice."
+            }
+        )
+        queue.add(jsonObjectRequest)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Initialize views safely here
+        tvNoticeTitle = view.findViewById(R.id.tvNoticeTitle)
+        tvNoticeDescription = view.findViewById(R.id.tvNoticeDescription)
 
         adminId = arguments?.getString("admin_id")  // fixed key
 
@@ -76,6 +114,7 @@ class AdminHomeFragment : Fragment() {
         }
     }
 
+
     private fun fetchAdminDetails(adminId: String) {
         val url = "http://192.168.103.54/UniValut/getAdminDetails.php?admin_id=$adminId"
 
@@ -85,13 +124,16 @@ class AdminHomeFragment : Fragment() {
                     val name = response.getString("name")
                     val college = response.getString("college")
                     collegeName = college
+                    collegeName?.let { fetchLatestNotice(it) }
                     binding.tvTitle.text = "$name - $college"
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Toast.makeText(requireContext(), "Error parsing admin details", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Error parsing admin details", Toast.LENGTH_SHORT).show()
+
                 }
             },
             { error ->
+                if (!isAdded) return@JsonObjectRequest
                 Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
             })
 
