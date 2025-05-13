@@ -6,10 +6,12 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import okhttp3.*
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
@@ -27,16 +29,15 @@ class AcadmicRecordActivity : AppCompatActivity() {
     private lateinit var pending: ConstraintLayout
     private lateinit var completed: ConstraintLayout
 
-    private var SID:String? = null
-    private var DID:String? = null
-
+    private var SID: String? = null
+    private var DID: String? = null
 
     private val client = OkHttpClient()
     private var collegeId: String? = null
-    private var departmentName: String? = null// To store fetched college ID
+    private var departmentName: String? = null
 
     private val courseNames = mutableListOf<String>()
-
+    private val gradePoints = mutableMapOf<String, Int>() // Map to store grade -> points
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +49,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
 
         SID = studentID
         departmentName = department
+
         // Initialize views
         progressS = findViewById(R.id.progressS)
         progressA = findViewById(R.id.progressA)
@@ -58,7 +60,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
         downloadButton = findViewById(R.id.downloadTranscriptButton)
         backButton = findViewById(R.id.backButton)
 
-        // Set dummy progress values
+        // Set dummy progress values for testing
         progressS.progress = 45
         progressA.progress = 30
         progressB.progress = 45
@@ -66,37 +68,29 @@ class AcadmicRecordActivity : AppCompatActivity() {
         progressD.progress = 20
         progressE.progress = 10
 
-
-        pending = findViewById(R.id.pendingCourses) // make sure it's initialized!
+        pending = findViewById(R.id.pendingCourses)
+        completed = findViewById(R.id.completedCourses)
 
         pending.setOnClickListener {
             if (!SID.isNullOrEmpty() && !DID.isNullOrEmpty()) {
-                Toast.makeText(this@AcadmicRecordActivity, "Pending Clicked", Toast.LENGTH_SHORT).show()
-
-                // Navigate to the Courses page with SID, DID, and course type as "pending"
                 val intent = Intent(this, StudentGrades::class.java).apply {
                     putExtra("SID", SID)
                     putExtra("DID", DID)
                     putExtra("courseType", "pending")
-                    putExtra("COLLEGE_ID", collegeId)// "pending" or "completed"
+                    putExtra("COLLEGE_ID", collegeId)
                 }
                 startActivity(intent)
             } else {
                 Toast.makeText(this@AcadmicRecordActivity, "Missing Student ID or Department ID", Toast.LENGTH_SHORT).show()
             }
         }
-
-        completed = findViewById(R.id.completedCourses) // make sure it's initialized!
 
         completed.setOnClickListener {
             if (!SID.isNullOrEmpty() && !DID.isNullOrEmpty()) {
-                Toast.makeText(this@AcadmicRecordActivity, "Completed Clicked", Toast.LENGTH_SHORT).show()
-
-                // Navigate to the Courses page with SID, DID, and course type as "completed"
                 val intent = Intent(this, StudentGradesCompleted::class.java).apply {
                     putExtra("SID", SID)
                     putExtra("DID", DID)
-                    putExtra("courseType", "completed") // "pending" or "completed"
+                    putExtra("courseType", "completed")
                 }
                 startActivity(intent)
             } else {
@@ -104,17 +98,14 @@ class AcadmicRecordActivity : AppCompatActivity() {
             }
         }
 
-
         // Handle button clicks
         downloadButton.setOnClickListener {
-            // TODO: Implement download logic
+            // TODO: Implement download logic (like downloading the transcript)
         }
 
         backButton.setOnClickListener {
             finish()
         }
-
-
 
         // Fetch the college ID
         collegeName?.let {
@@ -154,9 +145,13 @@ class AcadmicRecordActivity : AppCompatActivity() {
                             departmentName?.let {
                                 fetchDepartmentId(collegeId!!, it)
                             }
+
+                            // Fetch grade points after getting the college ID
+                            collegeId?.let {
+                                fetchGradePoints(it)
+                            }
                         }
-                    }
-                    else {
+                    } else {
                         val message = json.optString("message", "College not found")
                         runOnUiThread {
                             Toast.makeText(this@AcadmicRecordActivity, message, Toast.LENGTH_SHORT).show()
@@ -202,10 +197,9 @@ class AcadmicRecordActivity : AppCompatActivity() {
                         runOnUiThread {
                             Toast.makeText(this@AcadmicRecordActivity, "Department ID: $departmentId", Toast.LENGTH_SHORT).show()
                             DID = departmentId
-                            fetchCourses(departmentId) // Call to load course names
+                            fetchCourses(departmentId)
                         }
-                    }
-                    else {
+                    } else {
                         val message = json.optString("message", "Department not found")
                         runOnUiThread {
                             Toast.makeText(this@AcadmicRecordActivity, message, Toast.LENGTH_SHORT).show()
@@ -267,6 +261,100 @@ class AcadmicRecordActivity : AppCompatActivity() {
                     runOnUiThread {
                         Toast.makeText(this@AcadmicRecordActivity, "Error parsing courses", Toast.LENGTH_SHORT).show()
                         Log.e("Courses", "JSON Error: ${e.message}", e)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun fetchGradePoints(collegeId: String) {
+        val url = "http://192.168.103.54/UniValut/get_grade_points.php?college_id=$collegeId"
+
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                runOnUiThread {
+                    Toast.makeText(this@AcadmicRecordActivity, "Failed to fetch grade points", Toast.LENGTH_SHORT).show()
+                    Log.e("GradePoints", "Network Error: ${e.message}", e)
+                }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val responseBody = response.body?.string()
+                try {
+                    val jsonArray = JSONArray(responseBody)
+
+                    for (i in 0 until jsonArray.length()) {
+                        val gradePointObj = jsonArray.getJSONObject(i)
+                        val grade = gradePointObj.getString("grade")
+                        val points = gradePointObj.getInt("points")
+                        gradePoints[grade] = points
+                    }
+
+                    runOnUiThread {
+                        Toast.makeText(this@AcadmicRecordActivity, "Grade points loaded", Toast.LENGTH_SHORT).show()
+                        Log.d("GradePoints", gradePoints.toString())
+                        fetchCompletedCourses(SID!!, DID!!)
+
+                    }
+                } catch (e: Exception) {
+                    runOnUiThread {
+                        Toast.makeText(this@AcadmicRecordActivity, "Error parsing grade points", Toast.LENGTH_SHORT).show()
+                        Log.e("GradePoints", "JSON Error: ${e.message}", e)
+                    }
+                }
+            }
+        })
+    }
+    private fun fetchCompletedCourses(studentId: String, departmentId: String) {
+        val url = "http://192.168.103.54/UniValut/student_grades_completed.php?student_id=$studentId&department_id=$departmentId"
+
+        val request = Request.Builder().url(url).build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                runOnUiThread {
+                    Toast.makeText(this@AcadmicRecordActivity, "Error fetching data", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body?.string()
+                    val jsonResponse = JSONObject(responseBody)
+
+                    runOnUiThread {
+                        if (jsonResponse.getBoolean("success")) {
+                            val coursesArray: JSONArray = jsonResponse.getJSONArray("courses")
+                            var totalPoints = 0.0
+                            var totalCredits = 0.0
+
+                            for (i in 0 until coursesArray.length()) {
+                                val course = coursesArray.getJSONObject(i)
+                                val grade = course.getString("grade")
+                                val credits = course.getInt("credits")
+                                val gradePoint = gradePoints[grade] ?: 0
+                                totalPoints += gradePoint * credits
+                                totalCredits += credits
+                            }
+
+                            val cgpa = if (totalCredits > 0) totalPoints / totalCredits else 0.0
+
+                            val cgpaValueTextView = findViewById<TextView>(R.id.cgpaValue)
+                            cgpaValueTextView.text = "%.2f".format(cgpa)
+
+
+                            Toast.makeText(this@AcadmicRecordActivity, "CGPA: %.2f".format(cgpa), Toast.LENGTH_LONG).show()
+
+
+                            // TODO: Update UI with CGPA if needed
+                            // e.g., progressBar.setProgress((cgpa / 10.0 * 100).toInt())
+                        } else {
+                            Toast.makeText(this@AcadmicRecordActivity, "No completed courses found", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }

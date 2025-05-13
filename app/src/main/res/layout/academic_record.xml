@@ -426,6 +426,7 @@
                     android:background="#375E97" />
 
                 <TextView
+                    android:id="@+id/sGradePercentText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="S: 45%"
@@ -446,6 +447,7 @@
                     android:background="#FB6542" />
 
                 <TextView
+                    android:id="@+id/aGradePercentText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="A: 30%"
@@ -466,6 +468,8 @@
                     android:background="#FFBB00" />
 
                 <TextView
+
+                    android:id="@+id/bGradePercentText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="B: 45%"
@@ -486,6 +490,7 @@
                     android:background="#CEE6F2" />
 
                 <TextView
+                    android:id="@+id/cGradePercentText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="C: 15%"
@@ -505,6 +510,7 @@
                     android:background="#E3867D" />
 
                 <TextView
+                    android:id="@+id/dGradePercentText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="D: 20%"
@@ -523,6 +529,7 @@
                 android:background="#E7E8D1" />
 
             <TextView
+                android:id="@+id/eGradePercentText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="E: 10%"
