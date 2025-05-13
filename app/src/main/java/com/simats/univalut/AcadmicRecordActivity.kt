@@ -93,7 +93,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
                 Toast.makeText(this@AcadmicRecordActivity, "Completed Clicked", Toast.LENGTH_SHORT).show()
 
                 // Navigate to the Courses page with SID, DID, and course type as "completed"
-                val intent = Intent(this, StudentGrades::class.java).apply {
+                val intent = Intent(this, StudentGradesCompleted::class.java).apply {
                     putExtra("SID", SID)
                     putExtra("DID", DID)
                     putExtra("courseType", "completed") // "pending" or "completed"
