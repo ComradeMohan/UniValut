@@ -262,36 +262,32 @@
                 android:layout_marginBottom="16dp">
 
                 <LinearLayout
+                    android:id="@+id/notification_background"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/announcement_bg"
                     android:orientation="vertical"
-                    android:padding="12dp"
-                    android:background="#FFFFFF"
-                    >
+                    android:padding="16dp">
 
                     <TextView
+                        android:id="@+id/tvNoticeTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Latest Announcement"
+                        android:text="Notice Title"
                         android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="#fff" />
+
+                    <TextView
+                        android:id="@+id/tvNoticeDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Notice description will appear here."
                         android:textSize="16sp"
-                        android:textColor="#1976D2" />
+                        android:textColor="#ffff"
+                        android:layout_marginTop="8dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Class test on unit 1"
-                        android:textColor="#1976D2"
-                        android:textSize="14sp"
-                        android:layout_marginTop="4dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tomorrow, 10:30AM"
-                        android:textColor="#666666"
-                        android:textSize="13sp"
-                        android:layout_marginTop="2dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

@@ -42,11 +42,8 @@ class AdminProfileFragment : Fragment() {
 
         // Enable edit mode toggle for each field
         val editableFields = listOf(
-            Pair(R.id.etName, R.id.btnEditName),
             Pair(R.id.etEmail, R.id.btnEditEmail),
             Pair(R.id.etPhone, R.id.btnEditPhone),
-            Pair(R.id.etDepartment, R.id.btnEditDepartment),
-            Pair(R.id.etEmployeeId, R.id.btnEditEmployeeId)
         )
 
         editableFields.forEach { (editTextId, buttonId) ->

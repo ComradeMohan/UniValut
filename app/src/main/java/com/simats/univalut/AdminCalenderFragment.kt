@@ -2,6 +2,7 @@ package com.simats.univalut
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import com.simats.univalut.databinding.FragmentAdminCalenderBinding
+import org.json.JSONObject
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
 import java.util.*
@@ -22,149 +28,195 @@ class AdminCalenderFragment : Fragment() {
     private lateinit var startDateTextView: TextView
     private lateinit var endDateTextView: TextView
 
+    private var adminId: String? = null
+    private var collegeName: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_admin_calender, container, false)
 
-        // Setup RecyclerView
+        // Initialize RecyclerView
         recyclerView = view.findViewById(R.id.recyclerViewEvents)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         eventAdapter = EventAdapter(eventList)
         recyclerView.adapter = eventAdapter
 
-        // Fetch events and update the RecyclerView
-        fetchEvents()
+        // Get admin ID and fetch college details
+        adminId = arguments?.getString("admin_id")
+        adminId?.let { fetchAdminDetails(it) }
 
-        // Add Event Button
-        val addEventButton: Button = view.findViewById(R.id.buttonAddEvent)
-        addEventButton.setOnClickListener {
+        // Fetch events from backend (placeholder)
+
+
+        // Add event button
+        view.findViewById<Button>(R.id.buttonAddEvent).setOnClickListener {
             showAddEventDialog()
         }
 
         return view
     }
 
-    // Fetch events (could be from the server or database)
-    private fun fetchEvents() {
-        eventList.clear()
-        eventList.add(
-            Event(
-                title = "Model Exam",
-                type = "Exam",
-                startDate = LocalDate.of(2025, 5, 10),
-                endDate = LocalDate.of(2025, 5, 10),
-                description = "End-of-semester model exam for all students"
-            )
+    private fun fetchAdminDetails(adminId: String) {
+        val url = "http://192.168.103.54/UniValut/getAdminDetails.php?admin_id=$adminId"
+        val request = JsonObjectRequest(Request.Method.GET, url, null,
+            { response ->
+                try {
+                    collegeName = response.getString("college")
+                    Toast.makeText(requireContext(), "College: $collegeName", Toast.LENGTH_SHORT).show()
+                    fetchEvents()
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "Error parsing admin details", Toast.LENGTH_SHORT).show()
+                }
+            },
+            { error ->
+                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
         )
-        eventList.add(
-            Event(
-                title = "Workshop on AI",
-                type = "Workshop",
-                startDate = LocalDate.of(2025, 5, 15),
-                endDate = LocalDate.of(2025, 5, 15),
-                description = "A workshop on the latest trends in AI and machine learning."
-            )
-        )
-        eventAdapter.notifyDataSetChanged()
+        Volley.newRequestQueue(requireContext()).add(request)
     }
 
-    // Dialog to add a new event
+    private fun fetchEvents() {
+        val url = "http://192.168.103.54/UniValut/getEvents.php?college_name=$collegeName"
+
+        val request = JsonObjectRequest(Request.Method.GET, url, null,
+            { response ->
+                try {
+                    Log.d("AdminCalenderFragment", "Response: $response") // Log the entire response
+
+                    eventList.clear() // Clear the previous event list
+
+                    // Assuming the response contains a JSON array of events
+                    val eventsArray = response.getJSONArray("data") // Adjust this based on your response structure
+                    for (i in 0 until eventsArray.length()) {
+                        val eventObj = eventsArray.getJSONObject(i)
+                        val title = eventObj.getString("title")
+                        val type = eventObj.getString("type")
+                        val startDate = LocalDate.parse(eventObj.getString("start_date"))
+                        val endDate = LocalDate.parse(eventObj.getString("end_date"))
+                        val description = eventObj.getString("description")
+
+                        val event = Event(title, type, startDate, endDate, description)
+                        eventList.add(event)
+                    }
+
+                    // Notify the adapter about the new data
+                    eventAdapter.notifyDataSetChanged()
+
+                } catch (e: Exception) {
+                    Log.e("AdminCalenderFragment", "Error parsing events: ${e.message}")
+                    Toast.makeText(requireContext(), "Error parsing events", Toast.LENGTH_SHORT).show()
+                }
+            },
+            { error ->
+                Log.e("AdminCalenderFragment", "Error: ${error.message}") // Log the error
+                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+        // Add the request to the queue
+        Volley.newRequestQueue(requireContext()).add(request)
+    }
+
+
+
+
+
     private fun showAddEventDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_event, null)
 
-        val builder = AlertDialog.Builder(requireContext())
+        val editTextTitle = dialogView.findViewById<EditText>(R.id.editTextTitle)
+        val editTextType = dialogView.findViewById<EditText>(R.id.editTextType)
+        val editTextDescription = dialogView.findViewById<EditText>(R.id.editTextDescription)
+        startDateTextView = dialogView.findViewById(R.id.textViewStartDate)
+        endDateTextView = dialogView.findViewById(R.id.textViewEndDate)
+
+        startDateTextView.setOnClickListener { showDatePicker(startDateTextView) }
+        endDateTextView.setOnClickListener { showDatePicker(endDateTextView) }
+
+        AlertDialog.Builder(requireContext())
             .setTitle("Add New Event")
             .setView(dialogView)
             .setPositiveButton("Add") { dialog, _ ->
-                // Get data from the EditTexts
-                val title = dialogView.findViewById<EditText>(R.id.editTextTitle).text.toString()
-                val type = dialogView.findViewById<EditText>(R.id.editTextType).text.toString().takeIf { it.isNotBlank() } ?: "" // Handle nullable event type
-                val description = dialogView.findViewById<EditText>(R.id.editTextDescription).text.toString()
+                val title = editTextTitle.text.toString().trim()
+                val type = editTextType.text.toString().trim()
+                val description = editTextDescription.text.toString().trim()
                 val startDateStr = startDateTextView.text.toString()
                 val endDateStr = endDateTextView.text.toString()
 
                 try {
-                    // Convert the dates (nullable LocalDate)
-                    val startDate = if (startDateStr.isNotBlank()) LocalDate.parse(startDateStr) else null
-                    val endDate = if (endDateStr.isNotBlank()) LocalDate.parse(endDateStr) else null
+                    val startDate = LocalDate.parse(startDateStr)
+                    val endDate = LocalDate.parse(endDateStr)
 
-                    // Make sure startDate and endDate are valid (not null) before adding the event
-                    if (startDate == null || endDate == null) {
-                        Toast.makeText(requireContext(), "Please select both start and end dates.", Toast.LENGTH_LONG).show()
-                        return@setPositiveButton
-                    }
-
-                    // Create the new event object
                     val newEvent = Event(
                         title = title,
-                        type = type,  // Event type can be empty, handled by defaulting to an empty string
+                        type = type,
                         startDate = startDate,
                         endDate = endDate,
                         description = description
                     )
 
-                    // Add the event to the list and notify the adapter
                     eventList.add(newEvent)
                     eventAdapter.notifyItemInserted(eventList.size - 1)
 
-                    // Show a success message
-                    Toast.makeText(requireContext(), "Event added", Toast.LENGTH_SHORT).show()
-
+                    addEventToBackend(newEvent)
                 } catch (e: DateTimeParseException) {
-                    Toast.makeText(requireContext(), "Invalid date format. Use yyyy-mm-dd", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Invalid date format (yyyy-MM-dd)", Toast.LENGTH_SHORT).show()
                 }
 
-                // Dismiss the dialog
                 dialog.dismiss()
             }
             .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
-
-
-        // Set up the TextViews for date pickers
-        startDateTextView = dialogView.findViewById(R.id.textViewStartDate)
-        endDateTextView = dialogView.findViewById(R.id.textViewEndDate)
-
-        // Set listeners for the start date and end date TextViews
-        startDateTextView.setOnClickListener {
-            showDatePicker(startDateTextView)
-        }
-
-        endDateTextView.setOnClickListener {
-            showDatePicker(endDateTextView)
-        }
-
-        builder.create().show()
+            .create()
+            .show()
     }
 
+    private fun addEventToBackend(event: Event) {
+        val url = "http://192.168.103.54/UniValut/addEvent.php" // Replace with your backend URL
 
-    // Function to show a date picker dialog
-    private fun showDatePicker(dateTextView: TextView) {
+        val params = HashMap<String, String>().apply {
+            put("title", event.title)
+            put("type", event.type)
+            put("description", event.description)
+            put("start_date", event.startDate.toString())
+            put("end_date", event.endDate.toString())
+            put("college_name", collegeName ?: "")
+        }
+
+        val jsonObject = JSONObject(params as Map<*, *>)
+
+        val request = JsonObjectRequest(Request.Method.POST, url, jsonObject,
+            { response ->
+                val status = response.optString("status")
+                val message = response.optString("message")
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            },
+            { error ->
+                Toast.makeText(requireContext(), "Network error: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+        Volley.newRequestQueue(requireContext()).add(request)
+    }
+
+    private fun showDatePicker(targetTextView: TextView) {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val datePickerDialog = DatePickerDialog(
-            requireContext(),
-            { _, selectedYear, selectedMonth, selectedDay ->
-                val selectedDate = LocalDate.of(selectedYear, selectedMonth + 1, selectedDay)
-                dateTextView.text = selectedDate.toString() // Set the selected date in the TextView
-            },
-            year,
-            month,
-            day
-        )
-        datePickerDialog.show()
+        DatePickerDialog(requireContext(), { _, y, m, d ->
+            val date = LocalDate.of(y, m + 1, d)
+            targetTextView.text = date.toString()
+        }, year, month, day).show()
     }
 
     companion object {
-        // Static method to create a new instance of the fragment
-        fun newInstance(s: String): Fragment {
+        fun newInstance(adminId: String): AdminCalenderFragment {
             val fragment = AdminCalenderFragment()
             val args = Bundle()
-            args.putString("param", s)
+            args.putString("admin_id", adminId)
             fragment.arguments = args
             return fragment
         }

@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <LinearLayout
+        android:id="@+id/coursesContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -64,9 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:layout_margin="8dp"
-                android:background="@drawable/course_item_bg">
+                android:layout_margin="8dp">
 
                 <TextView
                     android:id="@+id/tvCourseCode"

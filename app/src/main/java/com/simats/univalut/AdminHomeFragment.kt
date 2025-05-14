@@ -1,6 +1,5 @@
 package com.simats.univalut
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,98 +21,128 @@ import org.json.JSONObject
 
 class AdminHomeFragment : Fragment() {
 
+    private var adminId: String? = null
     private var _binding: FragmentAdminHomeBinding? = null
     private val binding get() = _binding!!
-    lateinit var context: FragmentActivity
+    private lateinit var context: FragmentActivity
+    private var collegeName: String? = null
+
+
+
+    private lateinit var tvNoticeTitle: TextView
+    private lateinit var tvNoticeDescription: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAdminHomeBinding.inflate(inflater, container, false)
-        
         context = activity ?: requireActivity()
-        
         return binding.root
     }
 
+    private fun fetchLatestNotice(college: String) {
+        val url = "http://192.168.103.54/UniValut/get_latest_notice.php?college=$college"
+        val ctx = context ?: return  // Safely get context or return if fragment is not attached
+        val queue = Volley.newRequestQueue(ctx)
+
+        val jsonObjectRequest = JsonObjectRequest(
+            com.android.volley.Request.Method.GET, url, null,
+            { response ->
+                if (!isAdded) return@JsonObjectRequest  // Fragment no longer valid
+                val success = response.getBoolean("success")
+                if (success) {
+                    val title = response.getString("title")
+                    val description = response.getString("description")
+                    tvNoticeTitle.text = title
+                    tvNoticeDescription.text = description
+                } else {
+                    tvNoticeTitle.text = "No Notices"
+                    tvNoticeDescription.text = ""
+                }
+            },
+            {
+                if (!isAdded) return@JsonObjectRequest
+                tvNoticeTitle.text = "Error"
+                tvNoticeDescription.text = "Failed to fetch notice."
+            }
+        )
+        queue.add(jsonObjectRequest)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Fetch admin details and update UI
-        fetchAdminDetails("admin001")
+        // Initialize views safely here
+        tvNoticeTitle = view.findViewById(R.id.tvNoticeTitle)
+        tvNoticeDescription = view.findViewById(R.id.tvNoticeDescription)
 
-        // Set total students (this can be dynamic based on your data)
+        adminId = arguments?.getString("admin_id")  // fixed key
+
+        adminId?.let { fetchAdminDetails(it) }
+
         binding.tvTotalStudents.text = "2450"
 
-        // Set up RecyclerView
         binding.rvRecentActivity.layoutManager = LinearLayoutManager(context)
         binding.rvRecentActivity.adapter = RecentActivityAdapter(getDummyActivityList())
 
-        // Button click listeners
         binding.btnAddStudent.setOnClickListener {
-            Toast.makeText(context, "Add Student clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Add Student clicked", Toast.LENGTH_SHORT).show()
         }
 
         binding.btnAddFaculty.setOnClickListener {
-            Toast.makeText(context, "Add Faculty clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Add Faculty clicked", Toast.LENGTH_SHORT).show()
             showAddFacultyDialog()
         }
 
         binding.btnPostNotice.setOnClickListener {
-            Toast.makeText(context, "Post Notice clicked", Toast.LENGTH_SHORT).show()
-
-            // Extract the college name from tvTitle
             val collegeName = binding.tvTitle.text.toString().split(" - ").last()
-
-            // Create an intent to start the AdminPostNotice activity
             val intent = Intent(context, AdminPostNotice::class.java)
-
-            // Pass the college name as an extra
             intent.putExtra("COLLEGE_NAME", collegeName)
-
-            // Start the activity
             startActivity(intent)
         }
 
         binding.btnUploadFiles.setOnClickListener {
-            Toast.makeText(context, "Upload Files clicked", Toast.LENGTH_SHORT).show()
-            val intent = Intent(context, FacultyMaterialsFragment::class.java)
-            startActivity(intent)
+            val fragment = FacultyMaterialsFragment().apply {
+                arguments = Bundle().apply {
+                    putString("college_name", collegeName)
+                }
+            }
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 
-    // Function to fetch admin details using HTTP GET request
+
     private fun fetchAdminDetails(adminId: String) {
         val url = "http://192.168.103.54/UniValut/getAdminDetails.php?admin_id=$adminId"
 
-        // Create a JSON object request
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
                 try {
-                    // Get admin details from response
                     val name = response.getString("name")
                     val college = response.getString("college")
-
-                    // Set the text of tvTitle to show admin name and college
+                    collegeName = college
+                    collegeName?.let { fetchLatestNotice(it) }
                     binding.tvTitle.text = "$name - $college"
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Toast.makeText(context, "Error fetching admin details", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Error parsing admin details", Toast.LENGTH_SHORT).show()
+
                 }
             },
             { error ->
-                // Handle error response
-                Toast.makeText(context, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+                if (!isAdded) return@JsonObjectRequest
+                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
             })
 
-        // Add the request to the Volley request queue
-        Volley.newRequestQueue(context).add(jsonObjectRequest)
+        Volley.newRequestQueue(requireContext()).add(jsonObjectRequest)
     }
 
     private fun showAddFacultyDialog() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_add_faculty, null)
-        val dialog = android.app.AlertDialog.Builder(context)
+        val dialog = AlertDialog.Builder(requireContext())
             .setTitle("Add Faculty")
             .setView(dialogView)
             .create()
@@ -124,11 +155,13 @@ class AdminHomeFragment : Fragment() {
         val etPassword = dialogView.findViewById<EditText>(R.id.etPassword)
         val btnSubmit = dialogView.findViewById<Button>(R.id.btnSubmitFaculty)
 
-        val college = binding.tvTitle.text.toString().split(" - ").last()
-        etCollege.setText(college)
+        etCollege.setText(collegeName)
+        etPassword.setText("welcome")
+        btnSubmit.isEnabled = false
 
         getNextFacultyId { newId ->
             etLoginId.setText(newId)
+            btnSubmit.isEnabled = true
         }
 
         btnSubmit.setOnClickListener {
@@ -140,7 +173,7 @@ class AdminHomeFragment : Fragment() {
             val password = "welcome"
 
             if (name.isEmpty() || email.isEmpty() || phone.isEmpty()) {
-                Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -152,7 +185,7 @@ class AdminHomeFragment : Fragment() {
     }
 
     private fun postFacultyToServer(name: String, email: String, phone: String, college: String, loginId: String, password: String) {
-        val url = "http://192.168.103.54/UniValut/faculty_register.php" // Match this with your PHP file name
+        val url = "http://192.168.103.54/UniValut/faculty_register.php"
 
         val params = JSONObject().apply {
             put("name", name)
@@ -165,13 +198,13 @@ class AdminHomeFragment : Fragment() {
 
         val request = JsonObjectRequest(Request.Method.POST, url, params,
             {
-                Toast.makeText(context, "Faculty added successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Faculty added successfully", Toast.LENGTH_SHORT).show()
             },
             {
-                Toast.makeText(context, "Failed to add faculty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Failed to add faculty: ${it.message}", Toast.LENGTH_SHORT).show()
             })
 
-        Volley.newRequestQueue(context).add(request)
+        Volley.newRequestQueue(requireContext()).add(request)
     }
 
     private fun getNextFacultyId(callback: (String) -> Unit) {
@@ -190,9 +223,8 @@ class AdminHomeFragment : Fragment() {
                 callback("SSE001")
             })
 
-        Volley.newRequestQueue(context).add(request)
+        Volley.newRequestQueue(requireContext()).add(request)
     }
-
 
     private fun getDummyActivityList(): List<String> {
         return listOf(
@@ -209,10 +241,10 @@ class AdminHomeFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(s: String): Fragment {
+        fun newInstance(adminId: String): Fragment {
             val fragment = AdminHomeFragment()
             val args = Bundle()
-            args.putString("adminId", s)
+            args.putString("admin_id", adminId) // fixed key
             fragment.arguments = args
             return fragment
         }

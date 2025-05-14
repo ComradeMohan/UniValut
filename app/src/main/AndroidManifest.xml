@@ -47,15 +47,16 @@
             android:exported="false" />
         <activity android:name=".PdfViewerActivity"
             android:exported="false"/>
-
+<activity android:name=".StudentGradesCompleted"
+    android:exported="false"/>
         <activity
             android:name=".AcadmicRecordActivity"
             android:exported="false" />
-
+        <activity android:name=".StudentGrades"
+            android:exported="false" />
         <activity
             android:name=".StudentCourses"
             android:exported="false" />
-
         <activity
             android:name=".CourseMaterialsActivity"
             android:exported="false" />

@@ -126,7 +126,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:max="100"
-            android:progress="75"
+            android:progress="0"
             android:progressDrawable="@drawable/progress_bar_rounded"
             app:layout_constraintTop_toBottomOf="@id/degreeProgressLabel"
             app:layout_constraintStart_toStartOf="parent"
@@ -138,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"
-            android:text="75%"
+            android:text="0%"
             android:textSize="16sp"
             android:textColor="@android:color/black"
             app:layout_constraintTop_toTopOf="@id/degreeProgressBar"
@@ -163,6 +163,7 @@
             app:layout_constraintHorizontal_weight="1">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/completedCourses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -217,6 +218,7 @@
             app:layout_constraintHorizontal_weight="1">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/pendingCourses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -354,7 +356,7 @@
                 android:id="@+id/progressC"
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
-                android:progress="15"
+                android:progress="0"
                 android:max="100"
                 android:progressTint="#CEE6F2"
                 android:layout_marginBottom="12dp" />
@@ -424,9 +426,10 @@
                     android:background="#375E97" />
 
                 <TextView
+                    android:id="@+id/sGradePercentText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="S: 45%"
+                    android:text="S: 0%"
                     android:textSize="12sp"
                     android:layout_marginStart="4dp" />
 
@@ -444,9 +447,10 @@
                     android:background="#FB6542" />
 
                 <TextView
+                    android:id="@+id/aGradePercentText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="A: 30%"
+                    android:text="A: 0%"
                     android:textSize="12sp"
                     android:layout_marginStart="4dp" />
 
@@ -464,9 +468,11 @@
                     android:background="#FFBB00" />
 
                 <TextView
+
+                    android:id="@+id/bGradePercentText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="B: 45%"
+                    android:text="B: 0%"
                     android:textSize="12sp"
                     android:layout_marginStart="4dp" />
 
@@ -484,9 +490,10 @@
                     android:background="#CEE6F2" />
 
                 <TextView
+                    android:id="@+id/cGradePercentText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="C: 15%"
+                    android:text="C: 0%"
                     android:textSize="12sp"
                     android:layout_marginStart="4dp" />
 
@@ -503,9 +510,10 @@
                     android:background="#E3867D" />
 
                 <TextView
+                    android:id="@+id/dGradePercentText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="D: 20%"
+                    android:text="D: 0%"
                     android:textSize="12sp"
                     android:layout_marginStart="4dp" />
 
@@ -521,9 +529,10 @@
                 android:background="#E7E8D1" />
 
             <TextView
+                android:id="@+id/eGradePercentText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="E: 10%"
+                android:text="E: 0%"
                 android:textSize="12sp"
                 android:layout_marginStart="4dp" />
 
