@@ -35,7 +35,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
     private val client = OkHttpClient()
     private var collegeId: String? = null
     private var departmentName: String? = null
-
+    private var allCourses: Int? = null
     private val courseNames = mutableListOf<String>()
     private val gradePoints = mutableMapOf<String, Int>() // Map to store grade -> points
 
@@ -61,13 +61,12 @@ class AcadmicRecordActivity : AppCompatActivity() {
         backButton = findViewById(R.id.backButton)
 
         // Set dummy progress values for testing
-        progressS.progress = 45
-        progressA.progress = 30
-        progressB.progress = 45
-        progressC.progress = 15
-        progressD.progress = 20
-        progressE.progress = 10
-
+        progressS.progress = 0
+        progressA.progress = 0
+        progressB.progress = 0
+        progressC.progress = 0
+        progressD.progress = 0
+        progressE.progress = 0
         pending = findViewById(R.id.pendingCourses)
         completed = findViewById(R.id.completedCourses)
 
@@ -249,6 +248,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
                         }
                         runOnUiThread {
                             Toast.makeText(this@AcadmicRecordActivity, "Courses loaded: ${courseNames.size}", Toast.LENGTH_SHORT).show()
+                            allCourses = courseNames.size
                             Log.d("Courses", courseNames.joinToString(", "))
                         }
                     } else {
@@ -297,7 +297,12 @@ class AcadmicRecordActivity : AppCompatActivity() {
                     runOnUiThread {
                         Toast.makeText(this@AcadmicRecordActivity, "Grade points loaded", Toast.LENGTH_SHORT).show()
                         Log.d("GradePoints", gradePoints.toString())
-                        fetchCompletedCourses(SID!!, DID!!)
+                        if (SID != null && DID != null) {
+                            fetchCompletedCourses(SID!!, DID!!)
+                        } else {
+                            Toast.makeText(this@AcadmicRecordActivity, "Student or Department ID is null", Toast.LENGTH_SHORT).show()
+                        }
+
 
                     }
                 } catch (e: Exception) {
@@ -331,31 +336,77 @@ class AcadmicRecordActivity : AppCompatActivity() {
                             val coursesArray: JSONArray = jsonResponse.getJSONArray("courses")
                             var totalPoints = 0.0
                             var totalCredits = 0.0
+                            val gradeCount = mutableMapOf<String, Int>()
+                            val totalCourses = coursesArray.length()
+                            val completedCoursesCountTextView = findViewById<TextView>(R.id.completedCoursesCount)
+                            completedCoursesCountTextView.text = coursesArray.length().toString()
 
-                            for (i in 0 until coursesArray.length()) {
+                            val degreeProgress = findViewById<ProgressBar>(R.id.degreeProgressBar)
+
+
+                            val degreeProgressPercentage = findViewById<TextView>(R.id.degreeProgressPercentage)
+
+                            val pendingCoursesTextView = findViewById<TextView>(R.id.pendingCoursesCount)
+
+
+
+                            if (allCourses != null && allCourses!! > 0) {
+                                degreeProgress.progress = coursesArray.length()*100/ allCourses!!
+                                val percentage = (coursesArray.length() * 100 / allCourses!!)
+                                degreeProgressPercentage.text = "$percentage%"
+
+                                pendingCoursesTextView.text = (allCourses?.minus(totalCourses)).toString()
+                            } else {
+                                Toast.makeText(this@AcadmicRecordActivity, "Total courses not loaded yet", Toast.LENGTH_SHORT).show()
+                            }
+
+
+
+                            // Iterate through courses to calculate total points, credits, and grade counts
+                            for (i in 0 until totalCourses) {
                                 val course = coursesArray.getJSONObject(i)
                                 val grade = course.getString("grade")
                                 val credits = course.getInt("credits")
                                 val gradePoint = gradePoints[grade] ?: 0
                                 totalPoints += gradePoint * credits
                                 totalCredits += credits
+
+                                // Increment grade count
+                                gradeCount[grade] = gradeCount.getOrDefault(grade, 0) + 1
                             }
 
                             val cgpa = if (totalCredits > 0) totalPoints / totalCredits else 0.0
-
                             val cgpaValueTextView = findViewById<TextView>(R.id.cgpaValue)
                             cgpaValueTextView.text = "%.2f".format(cgpa)
 
+                            // Update the Grade Distribution UI dynamically
+                            // Iterate through the grade counts map
+                            gradeCount.forEach { (grade, count) ->
+                                // Calculate percentage for each grade
+                                val gradePercentage = (count.toDouble() / totalCourses) * 100
 
+                                // Find the ProgressBar and TextView for each grade dynamically
+                                val progressBar = findViewById<ProgressBar>(
+                                    resources.getIdentifier("progress$grade", "id", packageName)
+                                )
+                                val gradePercentText = findViewById<TextView>(
+                                    resources.getIdentifier("${grade.lowercase()}GradePercentText", "id", packageName)
+
+                                )
+
+                                // Update the ProgressBar and TextView with the calculated values
+                                progressBar.progress = gradePercentage.toInt()
+                                gradePercentText.text = "$grade: %.2f%%".format(gradePercentage)
+                            }
+
+                            // Toast for CGPA
                             Toast.makeText(this@AcadmicRecordActivity, "CGPA: %.2f".format(cgpa), Toast.LENGTH_LONG).show()
-
-
-                            // TODO: Update UI with CGPA if needed
-                            // e.g., progressBar.setProgress((cgpa / 10.0 * 100).toInt())
                         } else {
                             Toast.makeText(this@AcadmicRecordActivity, "No completed courses found", Toast.LENGTH_SHORT).show()
                         }
                     }
+
+
                 }
             }
         })
