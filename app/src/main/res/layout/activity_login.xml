@@ -121,7 +121,7 @@
 
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,21 +130,23 @@
             android:text="Sign in with College email"
             android:textSize="16sp"
             android:textColor="#757575"
-            android:background="@android:color/white"
-            android:drawableStart="@drawable/ic_google_logo" android:drawablePadding="16dp"
+            android:backgroundTint="@android:color/white"
+            android:icon="@drawable/ic_google_logo"
             app:strokeColor="#E0E0E0"
             app:strokeWidth="1dp"
-            style="?attr/borderlessButtonStyle" />
+            />
+
 
         <TextView
             android:id="@+id/signUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don't have an account? Sign Up"
-            android:textSize="16sp"
-            android:textColor="@color/colorPrimary" android:layout_marginTop="32dp"
+            android:layout_marginTop="32dp"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"
+            android:text="Don't have an account? Sign Up"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
 
     </LinearLayout>
 </ScrollView>
