@@ -1,5 +1,7 @@
 package com.simats.univalut
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
@@ -7,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -18,6 +21,8 @@ import org.json.JSONException
 class AdminProfileFragment : Fragment() {
 
     private var adminId: String? = null
+
+    private lateinit var logoutButton: LinearLayout
 
     companion object {
         fun newInstance(adminId: String): AdminProfileFragment {
@@ -37,6 +42,16 @@ class AdminProfileFragment : Fragment() {
 
         adminId = arguments?.getString("admin_id")
 
+        logoutButton = view.findViewById(R.id.logoutButton)
+
+        logoutButton.setOnClickListener {
+            Toast.makeText(requireContext(), "Logout Clicked", Toast.LENGTH_SHORT).show()
+            val sharedPreferences = requireContext().getSharedPreferences("user_sf", Context.MODE_PRIVATE)
+            sharedPreferences.edit().clear().apply()
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
         // Fetch real data
         fetchAdminDetails(adminId, view)
 

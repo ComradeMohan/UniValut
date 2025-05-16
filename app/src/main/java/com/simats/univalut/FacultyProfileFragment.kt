@@ -1,5 +1,7 @@
 package com.simats.univalut
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +22,8 @@ class FacultyProfileFragment : Fragment() {
     private lateinit var emailTextView: TextView
     private lateinit var phoneTextView: TextView
     private lateinit var regNoTextView: TextView
+
+    private lateinit var logoutButton: LinearLayout
 
     private var facultyId: String? = null
 
@@ -59,6 +63,16 @@ class FacultyProfileFragment : Fragment() {
         phoneTextView = view.findViewById(R.id.phoneTextView)
         regNoTextView = view.findViewById(R.id.regNoTextView)
 
+        logoutButton = view.findViewById(R.id.logoutButton)
+
+        logoutButton.setOnClickListener {
+            Toast.makeText(requireContext(), "Logout Clicked", Toast.LENGTH_SHORT).show()
+            val sharedPreferences = requireContext().getSharedPreferences("user_sf", Context.MODE_PRIVATE)
+            sharedPreferences.edit().clear().apply()
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
         facultyId?.let {
             fetchFacultyDetails(it)
         }

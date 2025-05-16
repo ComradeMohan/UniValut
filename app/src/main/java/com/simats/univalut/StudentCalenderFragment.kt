@@ -26,7 +26,8 @@ class StudentCalenderFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            studentID = it.getString("studentID") // Retrieve studentID from arguments
+            studentID = it.getString("studentID")
+            collegeName = it.getString("college_name")
         }
     }
 
@@ -43,8 +44,13 @@ class StudentCalenderFragment : Fragment() {
         eventAdapter = EventAdapter(eventList)
         recyclerView.adapter = eventAdapter
 
-        // Fetch student name and college
-        studentID?.let { fetchStudentName(it) }
+        // Fetch events directly if collegeName is available
+        collegeName?.let {
+            fetchEvents(it)
+        } ?: run {
+            // If collegeName is not available, fetch student name and then events
+            studentID?.let { fetchStudentName(it) }
+        }
 
         return view
     }
@@ -119,11 +125,13 @@ class StudentCalenderFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(studentID: String) =
+        fun newInstance(studentID: String, collegeName: String? = null) =
             StudentCalenderFragment().apply {
                 arguments = Bundle().apply {
                     putString("studentID", studentID)
+                    putString("college_name", collegeName)
                 }
             }
     }
 }
+

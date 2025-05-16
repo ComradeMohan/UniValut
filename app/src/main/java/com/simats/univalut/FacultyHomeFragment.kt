@@ -69,12 +69,21 @@ class FacultyHomeFragment : Fragment() {
 
         val sendAnnounce: LinearLayout = view.findViewById(R.id.sendAnnouncementButton)
         sendAnnounce.setOnClickListener {
-            val calendar = StudentCalenderFragment()
+            val calendar = if (!collegeName.isNullOrEmpty()) {
+                // If collegeName is available, pass it directly
+                StudentCalenderFragment.newInstance(studentID = "", collegeName = collegeName)
+            } else {
+                // If collegeName is not available, pass only studentID
+                StudentCalenderFragment.newInstance(studentID = facultyId ?: "")
+            }
+
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, calendar)
                 .addToBackStack(null)
                 .commit()
+
         }
+
 
         return view
     }

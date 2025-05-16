@@ -10,10 +10,12 @@
         android:background="@android:color/white"
         android:padding="20dp">
 
-        <LinearLayout
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@android:color/white">
 
             <!-- Title -->
             <TextView
@@ -50,31 +52,17 @@
                 android:background="@drawable/search_background"
                 android:inputType="text" />
 
-
+            <!-- Scrollable Course List -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewCourses"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginTop="20dp"
-                android:nestedScrollingEnabled="false"
-                android:background="#FFFFFF"
-
-                />
-
-
-            <!-- Course Cards -->
-
+                android:background="#FFFFFF"/>
         </LinearLayout>
+
     </ScrollView>
 
-    <!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-    <!--        android:id="@+id/bottomNavigationView"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_alignParentBottom="true"-->
-    <!--        android:background="#FFFFFF"-->
-    <!--        app:itemIconTint="@color/bottom_nav_selector"-->
-    <!--        app:itemTextColor="@color/bottom_nav_selector"-->
-    <!--        app:labelVisibilityMode="labeled"-->
-    <!--        app:menu="@menu/bottom_nav_menu" />-->
+
 </RelativeLayout>

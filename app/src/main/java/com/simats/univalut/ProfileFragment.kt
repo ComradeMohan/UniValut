@@ -1,5 +1,6 @@
 package com.simats.univalut
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -122,6 +123,11 @@ class ProfileFragment : Fragment() {
 
         logoutButton.setOnClickListener {
             Toast.makeText(requireContext(), "Logout Clicked", Toast.LENGTH_SHORT).show()
+            val sharedPreferences = requireContext().getSharedPreferences("user_sf", Context.MODE_PRIVATE)
+            sharedPreferences.edit().clear().apply()
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }
     }
 

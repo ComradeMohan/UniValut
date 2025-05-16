@@ -52,8 +52,6 @@ class HomeFragment1 : Fragment() {
         tvGreeting = view.findViewById(R.id.tvGreeting)
         tvStudentName = view.findViewById(R.id.tvStudentName)
         etSearch = view.findViewById(R.id.etSearch)
-        courseCode1 = view.findViewById(R.id.tvCourseCode1)
-        courseCode2 = view.findViewById(R.id.tvCourseCode2)
         tvNoticeTitle = view.findViewById(R.id.tvNoticeTitle)
         tvNoticeDescription = view.findViewById(R.id.tvNoticeDescription)
 
@@ -84,50 +82,48 @@ class HomeFragment1 : Fragment() {
         val jsonObjectRequest = JsonObjectRequest(
             com.android.volley.Request.Method.GET, url, null,
             { response ->
+                if (!isAdded) return@JsonObjectRequest  // Check if fragment is still attached
                 val success = response.getBoolean("success")
                 if (success) {
                     val name = response.getString("name")
                     collegeName = response.getString("college")
                     val departmentName = response.getString("dept")
-                    // Correct usage of requireContext() for Toast in Fragment
-                    fetchCollegeIdByName(collegeName?.toString() ?: "", requireContext()) { collegeId ->
-                        if (collegeId != null) {
-                            Log.d("CollegeID", "Fetched ID: $collegeId")
-                            Toast.makeText(requireContext(), " college ID: $collegeId", Toast.LENGTH_SHORT).show()
+                    // Check if fragment is still attached before using context
+                    if (isAdded) {
+                        fetchCollegeIdByName(collegeName?.toString() ?: "", requireContext()) { collegeId ->
+                            if (collegeId != null) {
+                                Log.d("CollegeID", "Fetched ID: $collegeId")
+                                Toast.makeText(requireContext(), " college ID: $collegeId", Toast.LENGTH_SHORT).show()
 
-                            fetchDepartmentId(collegeId, departmentName, requireContext()) { departmentId ->
-                                if (departmentId != null) {
-                                    Log.d("DepartmentID", "Fetched ID: $departmentId")
-                                    Toast.makeText(requireContext(), " Dept ID: $departmentId", Toast.LENGTH_SHORT).show()
-                                    // You can now use the department ID for further actions
-                                } else {
-                                    Toast.makeText(requireContext(), "Failed to fetch department ID", Toast.LENGTH_SHORT).show()
+                                fetchDepartmentId(collegeId, departmentName, requireContext()) { departmentId ->
+                                    if (departmentId != null) {
+                                        Log.d("DepartmentID", "Fetched ID: $departmentId")
+                                        Toast.makeText(requireContext(), " Dept ID: $departmentId", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Toast.makeText(requireContext(), "Failed to fetch department ID", Toast.LENGTH_SHORT).show()
+                                    }
                                 }
+                            } else {
+                                Toast.makeText(requireContext(), "Failed to fetch college ID", Toast.LENGTH_SHORT).show()
                             }
-
-
-                        } else {
-                            // Using requireContext() for fragment to avoid context null issue
-                            Toast.makeText(requireContext(), "Failed to fetch college ID", Toast.LENGTH_SHORT).show()
                         }
                     }
-
-
                     tvStudentName.text = name
-
-                    // Fetch notice after getting college
                     collegeName?.let { fetchLatestNotice(it) }
                 } else {
                     tvStudentName.text = "Student not found"
                 }
             },
             {
-                Toast.makeText(context, "Error fetching student data", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    Toast.makeText(context, "Error fetching student data", Toast.LENGTH_SHORT).show()
+                }
             }
         )
 
         queue.add(jsonObjectRequest)
     }
+
     fun fetchCollegeIdByName(collegeName: String, context: Context, callback: (Int?) -> Unit) {
         val url = "http://192.168.103.54/UniValut/get_college_id.php" // Replace with your actual URL
 

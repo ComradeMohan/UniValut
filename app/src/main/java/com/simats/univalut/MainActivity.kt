@@ -11,6 +11,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val sf = getSharedPreferences("user_sf", MODE_PRIVATE)
+        val isLoggedIn = sf.getBoolean("isLoggedIn",false)
+        val userType = sf.getString("userType","")
+        val userId = sf.getString("userID","")
+
+        if (isLoggedIn){
+            if (userType.equals("admin")){
+                val intent = Intent(this@MainActivity, AdminDashboardActivity::class.java)
+                intent.putExtra("ID", userId)
+                startActivity(intent)
+            }else if (userType.equals("student")){
+                val intent = Intent(this@MainActivity, StudentDashboardActivity::class.java)
+                intent.putExtra("ID", userId)
+                startActivity(intent)
+            }else if (userType.equals("faculty")){
+                val intent = Intent(this@MainActivity, FacultyDashboardActivity::class.java)
+                intent.putExtra("ID", userId)
+                startActivity(intent)
+            }
+        }
+
         val loginButton = findViewById<MaterialButton>(R.id.loginButton)
         val signUpButton = findViewById<MaterialButton>(R.id.signUpButton)
 
