@@ -199,7 +199,7 @@ class RegisterActivity : AppCompatActivity() {
                         try {
                             val jsonResponse = JSONObject(responseBody)
                             if (jsonResponse.getBoolean("success")) {
-                                Toast.makeText(this@RegisterActivity, "Registration successful!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@RegisterActivity, "Registration successful Verify your gmail!", Toast.LENGTH_SHORT).show()
                                 startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
                                 finish()
                             } else {

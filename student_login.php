@@ -17,7 +17,13 @@ $sql = "SELECT * FROM students_new WHERE student_number = '$student_number' AND 
 $result = $conn->query($sql);
 
 if ($result && $result->num_rows > 0) {
-    echo json_encode(["success" => true, "user_type" => "student"]);
+     $row = $result->fetch_assoc();
+     if($row['verified'] == 1){
+        echo json_encode(["success" => true, "user_type" => "student"]);
+     }
+    else{
+    echo json_encode(["success" => false, "message" => "check ur spam box to verify your mail"]);
+    }
 } else {
     echo json_encode(["success" => false, "message" => "Invalid student credentials"]);
 }
