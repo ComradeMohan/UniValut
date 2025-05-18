@@ -16,7 +16,9 @@ class StudentGradesCompleted : AppCompatActivity() {
     private lateinit var courseType: String
     private lateinit var SID: String
     private lateinit var DID: String
-    private var completedCourses: MutableList<String> = mutableListOf()
+    private var completedCourses: MutableList<CompletedCourse> = mutableListOf()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,16 +57,22 @@ class StudentGradesCompleted : AppCompatActivity() {
                     runOnUiThread {
                         if (jsonResponse.getBoolean("success")) {
                             val coursesArray: JSONArray = jsonResponse.getJSONArray("courses")
+
                             for (i in 0 until coursesArray.length()) {
                                 val course = coursesArray.getJSONObject(i)
+
+                                // Make sure you're extracting the "name" and "grade" fields correctly
                                 val courseName = course.getString("name")
-                                val grade = course.getString("grade") // Fetching grade
-                                val courseInfo = "$courseName - Grade: $grade" // Concatenating name and grade
-                                completedCourses.add(courseInfo) // Adding both to the list
+                                val grade = course.getString("grade")
+
+                                // Adding to the completedCourses list
+                                completedCourses.add(CompletedCourse(courseName, grade))
+                                // String added, but list expects CompletedCourse
+
                             }
 
-                            // Display the list of completed courses with grades
-                            val adapter = ArrayAdapter(this@StudentGradesCompleted, android.R.layout.simple_list_item_1, completedCourses)
+                            // Set up the adapter for ListView
+                            val adapter = CompletedCoursesAdapter(this@StudentGradesCompleted, completedCourses)
                             listView.adapter = adapter
                         } else {
                             Toast.makeText(this@StudentGradesCompleted, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show()
@@ -74,5 +82,6 @@ class StudentGradesCompleted : AppCompatActivity() {
             }
         })
     }
+
 
 }

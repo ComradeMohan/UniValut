@@ -45,7 +45,7 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.3")
     implementation ("androidx.fragment:fragment-ktx:1.5.5")
 
-
+    implementation ("com.google.android.gms:play-services-auth:21.1.0") // Use the latest version
 
 
 

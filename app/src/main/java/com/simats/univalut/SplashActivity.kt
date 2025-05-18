@@ -6,7 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class SplashActivity : AppCompatActivity() {
@@ -14,15 +14,21 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // Option 1: Animate the whole layout
-        val rootLayout = findViewById<LinearLayout>(R.id.rootLayout)
-        val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
-        rootLayout.startAnimation(fadeIn)
+        val splashLogo = findViewById<ImageView>(R.id.splashLogo)
+        val appName = findViewById<TextView>(R.id.appName)
+        val caption = findViewById<TextView>(R.id.caption)
 
-        // Option 2: Animate just the logo image (uncomment if preferred)
-        // val splashLogo = findViewById<ImageView>(R.id.splashLogo)
-        // splashLogo.startAnimation(fadeIn)
+        // Load animations
+        val floatLogoAnim = AnimationUtils.loadAnimation(this, R.anim.float_logo)
+        val slideUpAnim = AnimationUtils.loadAnimation(this, R.anim.slide_up)
+        val fadeInAnim = AnimationUtils.loadAnimation(this, R.anim.fade_in)
 
+        // Start animations
+        splashLogo.startAnimation(floatLogoAnim)
+        appName.startAnimation(slideUpAnim)
+        caption.startAnimation(fadeInAnim)
+
+        // Navigate after delay
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, MainActivity::class.java))
             finish()

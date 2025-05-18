@@ -8,36 +8,52 @@
     android:padding="16dp"
     android:background="@android:color/white">
 
+    <!-- Horizontal container to align left info and right spinner -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:divider="?android:attr/dividerVertical"
-        android:showDividers="middle">
+        android:showDividers="beginning"
+        android:layout_marginBottom="10dp">
 
-        <TextView
-            android:id="@+id/courseTitle"
-            android:layout_width="match_parent"
+        <!-- Left side: title + credits vertically stacked -->
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Course Title"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
-            android:textStyle="bold"
-            android:textColor="@android:color/black" />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/courseCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Credits: 4"
-            android:textAppearance="@android:style/TextAppearance.Material.Small"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginTop="4dp" />
+            <TextView
+                android:id="@+id/courseTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Course Title"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:textStyle="bold"
+                android:textColor="@android:color/black" />
 
+            <TextView
+                android:id="@+id/courseCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Credits: 4"
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <!-- Right side: Spinner dropdown -->
         <Spinner
             android:id="@+id/spinnerGrade"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
             tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
+
+    <!-- Bottom divider -->
+
+
 </androidx.cardview.widget.CardView>
