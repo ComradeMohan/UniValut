@@ -133,7 +133,7 @@ class ProfileFragment : Fragment() {
 
     private fun fetchStudentData(studentNumber: String) {
         val client = OkHttpClient()
-        val url = "http://192.168.103.54/UniValut/get_student.php?student_number=$studentNumber"
+        val url = "http://192.168.224.54/UniValut/get_student.php?student_number=$studentNumber"
 
         val request = Request.Builder()
             .url(url)
@@ -168,6 +168,7 @@ class ProfileFragment : Fragment() {
                 phoneTextView.text = "Dept: ${studentData.getString("department")}"
                 emailTextView.text = studentData.getString("email")
                 yearTextView.text = "${studentData.getString("year_of_study")}"
+                departmentTextView.text = studentData.get("department").toString()
                 // college field can be added if available in your UI
 
                 studentID = studentData.getString("student_number")

@@ -42,7 +42,7 @@ class AdminHomeFragment : Fragment() {
     }
 
     private fun fetchLatestNotice(college: String) {
-        val url = "http://192.168.103.54/UniValut/get_latest_notice.php?college=$college"
+        val url = "http://192.168.224.54/UniValut/get_latest_notice.php?college=$college"
         val ctx = context ?: return  // Safely get context or return if fragment is not attached
         val queue = Volley.newRequestQueue(ctx)
 
@@ -116,7 +116,7 @@ class AdminHomeFragment : Fragment() {
 
 
     private fun fetchAdminDetails(adminId: String) {
-        val url = "http://192.168.103.54/UniValut/getAdminDetails.php?admin_id=$adminId"
+        val url = "http://192.168.224.54/UniValut/getAdminDetails.php?admin_id=$adminId"
 
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
@@ -185,7 +185,7 @@ class AdminHomeFragment : Fragment() {
     }
 
     private fun postFacultyToServer(name: String, email: String, phone: String, college: String, loginId: String, password: String) {
-        val url = "http://192.168.103.54/UniValut/faculty_register.php"
+        val url = "http://192.168.224.54/UniValut/faculty_register.php"
 
         val params = JSONObject().apply {
             put("name", name)
@@ -208,7 +208,7 @@ class AdminHomeFragment : Fragment() {
     }
 
     private fun getNextFacultyId(callback: (String) -> Unit) {
-        val url = "http://192.168.103.54/UniValut/getNextFacultyId.php"
+        val url = "http://192.168.224.54/UniValut/getNextFacultyId.php"
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->

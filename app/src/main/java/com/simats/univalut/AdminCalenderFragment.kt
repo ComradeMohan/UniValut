@@ -59,7 +59,7 @@ class AdminCalenderFragment : Fragment() {
     }
 
     private fun fetchAdminDetails(adminId: String) {
-        val url = "http://192.168.103.54/UniValut/getAdminDetails.php?admin_id=$adminId"
+        val url = "http://192.168.224.54/UniValut/getAdminDetails.php?admin_id=$adminId"
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
                 try {
@@ -78,7 +78,7 @@ class AdminCalenderFragment : Fragment() {
     }
 
     private fun fetchEvents() {
-        val url = "http://192.168.103.54/UniValut/getEvents.php?college_name=$collegeName"
+        val url = "http://192.168.224.54/UniValut/getEvents.php?college_name=$collegeName"
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
@@ -173,7 +173,7 @@ class AdminCalenderFragment : Fragment() {
     }
 
     private fun addEventToBackend(event: Event) {
-        val url = "http://192.168.103.54/UniValut/addEvent.php" // Replace with your backend URL
+        val url = "http://192.168.224.54/UniValut/addEvent.php" // Replace with your backend URL
 
         val params = HashMap<String, String>().apply {
             put("title", event.title)

@@ -35,7 +35,7 @@ class StudentGradesCompleted : AppCompatActivity() {
     }
 
     private fun fetchCompletedCourses(studentId: String, departmentId: String) {
-        val url = "http://192.168.103.54/UniValut/student_grades_completed.php?student_id=$studentId&department_id=$departmentId"
+        val url = "http://192.168.224.54/UniValut/student_grades_completed.php?student_id=$studentId&department_id=$departmentId"
 
         val client = OkHttpClient()
         val request = Request.Builder().url(url).build()

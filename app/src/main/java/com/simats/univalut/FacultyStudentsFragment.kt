@@ -48,7 +48,7 @@ class FacultyStudentsFragment : Fragment() {
 
     // Function to fetch the college name from the server
     private fun fetchCollegeName(facultyId: String) {
-        val url = "http://192.168.103.54/UniValut/get_faculty_name.php?facultyId=$facultyId"
+        val url = "http://192.168.224.54/UniValut/get_faculty_name.php?facultyId=$facultyId"
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
@@ -70,7 +70,7 @@ class FacultyStudentsFragment : Fragment() {
 
     // Function to fetch the list of students from the college
     private fun fetchStudentsByCollege(college: String) {
-        val url = "http://192.168.103.54/UniValut/fetch_students_by_college.php?college=$college"
+        val url = "http://192.168.224.54/UniValut/fetch_students_by_college.php?college=$college"
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->

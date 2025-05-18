@@ -72,7 +72,7 @@ class AdminPostNotice : AppCompatActivity() {
         isHighPriority: Boolean
     ) {
         // URL to your PHP script (change it based on your local server)
-        val url = "http://192.168.103.54/UniValut/post_notice.php" // Use '10.0.2.2' for Android Emulator, or your server IP
+        val url = "http://192.168.224.54/UniValut/post_notice.php" // Use '10.0.2.2' for Android Emulator, or your server IP
 
         // Create the request parameters (add more as needed)
         val params = HashMap<String, String>()

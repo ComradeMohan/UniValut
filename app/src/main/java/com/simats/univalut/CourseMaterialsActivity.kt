@@ -42,7 +42,7 @@ class CourseMaterialsActivity : AppCompatActivity() {
     }
 
     private fun fetchPDFs(college: String, course: String) {
-        val url = "http://192.168.103.54/UniValut/list_pdfs.php?college=$college&course=$course"
+        val url = "http://192.168.224.54/UniValut/list_pdfs.php?college=$college&course=$course"
         val request = JsonObjectRequest(url, null,
             { response ->
                 try {

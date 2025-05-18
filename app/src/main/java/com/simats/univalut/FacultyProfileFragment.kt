@@ -81,7 +81,7 @@ class FacultyProfileFragment : Fragment() {
     }
 
     private fun fetchFacultyDetails(facultyId: String) {
-        val url = "http://192.168.103.54/UniValut/get_faculty_by_id.php?facultyId=$facultyId"
+        val url = "http://192.168.224.54/UniValut/get_faculty_by_id.php?facultyId=$facultyId"
 
         val requestQueue = Volley.newRequestQueue(requireContext())
         val jsonObjectRequest = JsonObjectRequest(

@@ -63,7 +63,7 @@ class CourseFragment : Fragment() {
     }
 
     private fun fetchCollegeName(studentID: String, adapter: CourseAdapter) {
-        val url = "http://192.168.103.54/UniValut/fetch_student_name.php?studentID=$studentID"
+        val url = "http://192.168.224.54/UniValut/fetch_student_name.php?studentID=$studentID"
         val queue = Volley.newRequestQueue(requireContext())
 
         val jsonObjectRequest = JsonObjectRequest(
@@ -93,7 +93,7 @@ class CourseFragment : Fragment() {
     }
 
     private fun fetchCourses(collegeName: String, adapter: CourseAdapter) {
-        val url = "http://192.168.103.54/UniValut/fetch_courses.php?college=$collegeName"
+        val url = "http://192.168.224.54/UniValut/fetch_courses.php?college=$collegeName"
         val queue = Volley.newRequestQueue(requireContext())
 
         val jsonObjectRequest = JsonObjectRequest(

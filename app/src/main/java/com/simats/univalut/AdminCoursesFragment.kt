@@ -72,7 +72,7 @@ class AdminCoursesFragment : Fragment() {
     }
 
     private fun fetchAdminDetails(adminId: String) {
-        val url = "http://192.168.103.54/UniValut/getAdminDetails.php?admin_id=$adminId"
+        val url = "http://192.168.224.54/UniValut/getAdminDetails.php?admin_id=$adminId"
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
                 try {
@@ -98,7 +98,7 @@ class AdminCoursesFragment : Fragment() {
 
     private fun loadCoursesForCollege(college: String) {
         val encodedCollege = URLEncoder.encode(college, StandardCharsets.UTF_8.name())
-        val url = "http://192.168.103.54/UniValut/getCoursesByCollege.php?college=$encodedCollege"
+        val url = "http://192.168.224.54/UniValut/getCoursesByCollege.php?college=$encodedCollege"
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
@@ -122,7 +122,7 @@ class AdminCoursesFragment : Fragment() {
     }
 
     private fun loadFacultyForCollege(college: String) {
-        val url = "http://192.168.103.54/UniValut/getFacultyByCollege.php?college=$collegeName"
+        val url = "http://192.168.224.54/UniValut/getFacultyByCollege.php?college=$collegeName"
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
@@ -236,7 +236,7 @@ class AdminCoursesFragment : Fragment() {
             put("college", collegeName)
         }
 
-        val url = "http://192.168.103.54/UniValut/addCourse.php"
+        val url = "http://192.168.224.54/UniValut/addCourse.php"
         val request = JsonObjectRequest(Request.Method.POST, url, courseData,
             { response ->
                 try {

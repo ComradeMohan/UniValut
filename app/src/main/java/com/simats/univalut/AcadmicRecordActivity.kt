@@ -113,7 +113,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
     }
 
     private fun fetchCollegeId(collegeName: String) {
-        val url = "http://192.168.103.54/UniValut/get_college_id.php"
+        val url = "http://192.168.224.54/UniValut/get_college_id.php"
 
         val formBody = FormBody.Builder()
             .add("college_name", collegeName)
@@ -167,7 +167,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
     }
 
     private fun fetchDepartmentId(collegeId: String, departmentName: String) {
-        val url = "http://192.168.103.54/UniValut/get_department_id.php"
+        val url = "http://192.168.224.54/UniValut/get_department_id.php"
 
         val formBody = FormBody.Builder()
             .add("college_id", collegeId)
@@ -215,7 +215,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
     }
 
     private fun fetchCourses(departmentId: String) {
-        val url = "http://192.168.103.54/UniValut/get_courses_by_department.php"
+        val url = "http://192.168.224.54/UniValut/get_courses_by_department.php"
 
         val formBody = FormBody.Builder()
             .add("department_id", departmentId)
@@ -268,7 +268,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
     }
 
     private fun fetchGradePoints(collegeId: String) {
-        val url = "http://192.168.103.54/UniValut/get_grade_points.php?college_id=$collegeId"
+        val url = "http://192.168.224.54/UniValut/get_grade_points.php?college_id=$collegeId"
 
         val request = Request.Builder()
             .url(url)
@@ -315,7 +315,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
         })
     }
     private fun fetchCompletedCourses(studentId: String, departmentId: String) {
-        val url = "http://192.168.103.54/UniValut/student_grades_completed.php?student_id=$studentId&department_id=$departmentId"
+        val url = "http://192.168.224.54/UniValut/student_grades_completed.php?student_id=$studentId&department_id=$departmentId"
 
         val request = Request.Builder().url(url).build()
 

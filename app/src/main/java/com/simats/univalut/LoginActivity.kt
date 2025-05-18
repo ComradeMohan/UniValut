@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginUser(studentNumber: String, password: String) {
-        val url = "http://192.168.103.54/univalut/login.php" // Use 10.0.2.2 for emulator
+        val url = "http://192.168.224.54/univalut/login.php" // Use 10.0.2.2 for emulator
 
         val json = JSONObject().apply {
             put("student_number", studentNumber)

@@ -127,7 +127,7 @@ class FacultyUploadMaterial : AppCompatActivity() {
         val inputStream = contentResolver.openInputStream(fileUri)
         val fileData = inputStream?.readBytes() ?: return
 
-        val url = "http://192.168.103.54/UniValut/upload_material.php"
+        val url = "http://192.168.224.54/UniValut/upload_material.php"
 
         val request = VolleyFileUpload(
             Request.Method.POST, url,

@@ -89,7 +89,7 @@ class FacultyHomeFragment : Fragment() {
     }
 
     private fun fetchLatestNotice(college: String) {
-        val url = "http://192.168.103.54/UniValut/get_latest_notice.php?college=$college"
+        val url = "http://192.168.224.54/UniValut/get_latest_notice.php?college=$college"
         val ctx = context ?: return
         val queue = Volley.newRequestQueue(ctx)
 
@@ -124,7 +124,7 @@ class FacultyHomeFragment : Fragment() {
 
         override fun doInBackground(vararg params: String?): Pair<String, String>? {
             val facultyId = params[0] ?: return null
-            val urlString = "http://192.168.103.54/UniValut/get_faculty_name.php?facultyId=$facultyId"
+            val urlString = "http://192.168.224.54/UniValut/get_faculty_name.php?facultyId=$facultyId"
             return try {
                 val url = URL(urlString)
                 val connection = url.openConnection() as HttpURLConnection
