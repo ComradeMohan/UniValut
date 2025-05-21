@@ -8,7 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.LinearLayout
 import android.widget.Toast
-import com.google.android.material.bottomnavigation.BottomNavigationView
+
+
+
+
 
 class StudentProfileActivity : AppCompatActivity() {
 
@@ -77,45 +80,7 @@ class StudentProfileActivity : AppCompatActivity() {
             // Add your logout logic here (e.g., clearing session, navigating to login)
         }
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
-        bottomNavigationView.selectedItemId = R.id.nav_profile
-
-        bottomNavigationView.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_home -> {
-                    startActivity(Intent(this, StudentActivity::class.java))
-                    // You're already in StudentActivity, maybe refresh or do nothing
-                    true
-                }
-
-                R.id.nav_courses -> {
-                    startActivity(Intent(this, StudentCourses::class.java))
-                    true
-                }
-
-                R.id.nav_profile -> {
-                    true
-                }
-
-                R.id.nav_schedule -> {
-                    startActivity(Intent(this, StudentCalender::class.java))
-                    true
-                }
-
-                R.id.nav_notifications -> {
-                    startActivity(Intent(this, StudentNotificationsActivity::class.java))
-                    true
-                }
-
-                R.id.nav_profile -> {
-                    startActivity(Intent(this, StudentProfileActivity::class.java))
-                    true
-                }
-
-                else -> false
-            }
-        }
 
 
     }

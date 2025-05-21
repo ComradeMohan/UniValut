@@ -23,7 +23,7 @@ class AdminProfileFragment : Fragment() {
     private var adminId: String? = null
 
     private lateinit var logoutButton: LinearLayout
-
+    private lateinit var changePassword: LinearLayout
     companion object {
         fun newInstance(adminId: String): AdminProfileFragment {
             val fragment = AdminProfileFragment()
@@ -60,7 +60,7 @@ class AdminProfileFragment : Fragment() {
             Pair(R.id.etEmail, R.id.btnEditEmail),
             Pair(R.id.etPhone, R.id.btnEditPhone),
         )
-
+        changePassword = view.findViewById(R.id.changePasswordButton)
         editableFields.forEach { (editTextId, buttonId) ->
             val editText = view.findViewById<EditText>(editTextId)
             val editButton = view.findViewById<ImageButton>(buttonId)
@@ -77,13 +77,25 @@ class AdminProfileFragment : Fragment() {
             }
         }
 
+        changePassword.setOnClickListener{
+            val changePasswordFragment = ChangePasswordFragment()
+            val bundle = Bundle()
+            bundle.putString("ID", adminId)
+            bundle.putString("userType", "admin")
+            changePasswordFragment.arguments = bundle
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, changePasswordFragment)
+                .addToBackStack(null)
+                .commit()
+        }
         return view
     }
 
     private fun fetchAdminDetails(adminId: String?, view: View) {
         if (adminId == null) return
 
-        val url = "http://192.168.224.54/UniValut/get_admin_details.php?admin_id=$adminId"
+        val url = "https://api-9buk.onrender.com/get_admin_details.php?admin_id=$adminId"
         val requestQueue = Volley.newRequestQueue(requireContext())
 
         val jsonObjectRequest = JsonObjectRequest(

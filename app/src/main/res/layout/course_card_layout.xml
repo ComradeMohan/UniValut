@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
     android:padding="16dp"
-    android:background="@android:color/white">
+    android:background="@color/white">
 
     <!-- Horizontal container to align left info and right spinner -->
     <LinearLayout
@@ -16,6 +16,7 @@
         android:gravity="center_vertical"
         android:divider="?android:attr/dividerVertical"
         android:showDividers="beginning"
+        android:background="@android:color/white"
         android:layout_marginBottom="10dp">
 
         <!-- Left side: title + credits vertically stacked -->

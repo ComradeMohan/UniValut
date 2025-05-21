@@ -11,5 +11,7 @@
     <color name="buttonBlue">#2563EB</color>
     <color name="bottom_nav_selector_color">#9CA3AF</color>
     <color name="blue_focus">#1976D2</color>
+    <color name="teal_700">#018786</color>
+    <color name="my_status_bar_color">#ffff</color>
 
 </resources>

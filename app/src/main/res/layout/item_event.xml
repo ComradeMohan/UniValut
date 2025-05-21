@@ -5,13 +5,15 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
     android:layout_marginTop="12dp"
-    android:elevation="4dp">
+    android:elevation="4dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/lightBackground">
 
         <TextView
             android:id="@+id/textViewEventTitle"
@@ -19,7 +21,8 @@
             android:layout_height="wrap_content"
             android:text="Event Title"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/textViewEventType"
@@ -34,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start Date"
+            android:textColor="@color/black"
             android:textSize="14sp"/>
 
         <TextView
@@ -41,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="End Date"
+            android:textColor="@color/black"
             android:textSize="14sp"/>
 
         <TextView

@@ -113,7 +113,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
     }
 
     private fun fetchCollegeId(collegeName: String) {
-        val url = "http://192.168.224.54/UniValut/get_college_id.php"
+        val url = "https://api-9buk.onrender.com/get_college_id.php"
 
         val formBody = FormBody.Builder()
             .add("college_name", collegeName)
@@ -146,9 +146,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
                             }
 
                             // Fetch grade points after getting the college ID
-                            collegeId?.let {
-                                fetchGradePoints(it)
-                            }
+
                         }
                     } else {
                         val message = json.optString("message", "College not found")
@@ -167,7 +165,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
     }
 
     private fun fetchDepartmentId(collegeId: String, departmentName: String) {
-        val url = "http://192.168.224.54/UniValut/get_department_id.php"
+        val url = "https://api-9buk.onrender.com/get_department_id.php"
 
         val formBody = FormBody.Builder()
             .add("college_id", collegeId)
@@ -197,6 +195,9 @@ class AcadmicRecordActivity : AppCompatActivity() {
                             Toast.makeText(this@AcadmicRecordActivity, "Department ID: $departmentId", Toast.LENGTH_SHORT).show()
                             DID = departmentId
                             fetchCourses(departmentId)
+                            collegeId?.let {
+                                fetchGradePoints(it)
+                            }
                         }
                     } else {
                         val message = json.optString("message", "Department not found")
@@ -215,7 +216,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
     }
 
     private fun fetchCourses(departmentId: String) {
-        val url = "http://192.168.224.54/UniValut/get_courses_by_department.php"
+        val url = "https://api-9buk.onrender.com/get_courses_by_department.php"
 
         val formBody = FormBody.Builder()
             .add("department_id", departmentId)
@@ -268,7 +269,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
     }
 
     private fun fetchGradePoints(collegeId: String) {
-        val url = "http://192.168.224.54/UniValut/get_grade_points.php?college_id=$collegeId"
+        val url = "https://api-9buk.onrender.com/get_grade_points.php?college_id=$collegeId"
 
         val request = Request.Builder()
             .url(url)
@@ -315,7 +316,7 @@ class AcadmicRecordActivity : AppCompatActivity() {
         })
     }
     private fun fetchCompletedCourses(studentId: String, departmentId: String) {
-        val url = "http://192.168.224.54/UniValut/student_grades_completed.php?student_id=$studentId&department_id=$departmentId"
+        val url = "https://api-9buk.onrender.com/student_grades_completed.php?student_id=$studentId&department_id=$departmentId"
 
         val request = Request.Builder().url(url).build()
 

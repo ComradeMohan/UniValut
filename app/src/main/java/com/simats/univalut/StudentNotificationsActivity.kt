@@ -38,7 +38,7 @@ class StudentNotificationsActivity : AppCompatActivity() {
     }
 
     private fun fetchNotices(collegeName: String) {
-        val url = "http://192.168.224.54/UniValut/fetch_notices.php?college=$collegeName"
+        val url = "http://api-9buk.onrender.com/fetch_notices.php?college=$collegeName"
 
         Thread {
             try {

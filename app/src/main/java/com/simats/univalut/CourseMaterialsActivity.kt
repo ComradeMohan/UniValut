@@ -10,6 +10,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONException
+import java.net.URLEncoder
 
 class CourseMaterialsActivity : AppCompatActivity() {
 
@@ -42,7 +43,10 @@ class CourseMaterialsActivity : AppCompatActivity() {
     }
 
     private fun fetchPDFs(college: String, course: String) {
-        val url = "http://192.168.224.54/UniValut/list_pdfs.php?college=$college&course=$course"
+        val encodedCollege = URLEncoder.encode(college.trim(), "UTF-8")
+        val encodedCourse = URLEncoder.encode(course.trim(), "UTF-8")
+        val url = "https://api-9buk.onrender.com/list_pdfs.php?college=$encodedCollege&course=$encodedCourse"
+
         val request = JsonObjectRequest(url, null,
             { response ->
                 try {
@@ -52,8 +56,8 @@ class CourseMaterialsActivity : AppCompatActivity() {
                             val obj = filesArray.getJSONObject(i)
                             val name = obj.getString("name")
                             val url = obj.getString("url")
-                            val date = obj.getString("date")
-                            addPDFRow(name, url, date)
+                           // val date = obj.getString("date")
+                            addPDFRow(name, url)
                         }
                     } else {
                         Toast.makeText(this, "No files found", Toast.LENGTH_SHORT).show()
@@ -69,12 +73,12 @@ class CourseMaterialsActivity : AppCompatActivity() {
         Volley.newRequestQueue(this).add(request)
     }
 
-    private fun addPDFRow(name: String, url: String, date: String) {
+    private fun addPDFRow(name: String, url: String) {
         val inflater = layoutInflater
         val row = inflater.inflate(R.layout.item_pdf_row, containerLayout, false)
 
         row.findViewById<TextView>(R.id.fileName).text = name
-        row.findViewById<TextView>(R.id.fileDetails).text = "PDF • $date"
+        row.findViewById<TextView>(R.id.fileDetails).text = "PDF "
 
         row.findViewById<Button>(R.id.viewButton).setOnClickListener {
             val intent = Intent(this, PdfViewerActivity::class.java)

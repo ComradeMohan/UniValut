@@ -41,34 +41,7 @@ class AdminHomeFragment : Fragment() {
         return binding.root
     }
 
-    private fun fetchLatestNotice(college: String) {
-        val url = "http://192.168.224.54/UniValut/get_latest_notice.php?college=$college"
-        val ctx = context ?: return  // Safely get context or return if fragment is not attached
-        val queue = Volley.newRequestQueue(ctx)
 
-        val jsonObjectRequest = JsonObjectRequest(
-            com.android.volley.Request.Method.GET, url, null,
-            { response ->
-                if (!isAdded) return@JsonObjectRequest  // Fragment no longer valid
-                val success = response.getBoolean("success")
-                if (success) {
-                    val title = response.getString("title")
-                    val description = response.getString("description")
-                    tvNoticeTitle.text = title
-                    tvNoticeDescription.text = description
-                } else {
-                    tvNoticeTitle.text = "No Notices"
-                    tvNoticeDescription.text = ""
-                }
-            },
-            {
-                if (!isAdded) return@JsonObjectRequest
-                tvNoticeTitle.text = "Error"
-                tvNoticeDescription.text = "Failed to fetch notice."
-            }
-        )
-        queue.add(jsonObjectRequest)
-    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -80,7 +53,7 @@ class AdminHomeFragment : Fragment() {
 
         adminId?.let { fetchAdminDetails(it) }
 
-        binding.tvTotalStudents.text = "2450"
+        binding.tvTotalStudents.text = "0"
 
         binding.rvRecentActivity.layoutManager = LinearLayoutManager(context)
         binding.rvRecentActivity.adapter = RecentActivityAdapter(getDummyActivityList())
@@ -114,9 +87,36 @@ class AdminHomeFragment : Fragment() {
         }
     }
 
+    private fun fetchLatestNotice(college: String) {
+        val url = "https://api-9buk.onrender.com/get_latest_notice.php?college=$college"
+        val ctx = context ?: return  // Safely get context or return if fragment is not attached
+        val queue = Volley.newRequestQueue(ctx)
 
+        val jsonObjectRequest = JsonObjectRequest(
+            com.android.volley.Request.Method.GET, url, null,
+            { response ->
+                if (!isAdded) return@JsonObjectRequest  // Fragment no longer valid
+                val success = response.getBoolean("success")
+                if (success) {
+                    val title = response.getString("title")
+                    val description = response.getString("description")
+                    tvNoticeTitle.text = title
+                    tvNoticeDescription.text = description
+                } else {
+                    tvNoticeTitle.text = "No Notices"
+                    tvNoticeDescription.text = ""
+                }
+            },
+            {
+                if (!isAdded) return@JsonObjectRequest
+                tvNoticeTitle.text = "Error"
+                tvNoticeDescription.text = "Failed to fetch notice."
+            }
+        )
+        queue.add(jsonObjectRequest)
+    }
     private fun fetchAdminDetails(adminId: String) {
-        val url = "http://192.168.224.54/UniValut/getAdminDetails.php?admin_id=$adminId"
+        val url = "https://api-9buk.onrender.com/getAdminDetails.php?admin_id=$adminId"
 
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
@@ -185,7 +185,7 @@ class AdminHomeFragment : Fragment() {
     }
 
     private fun postFacultyToServer(name: String, email: String, phone: String, college: String, loginId: String, password: String) {
-        val url = "http://192.168.224.54/UniValut/faculty_register.php"
+        val url = "https://api-9buk.onrender.com/faculty_register.php"
 
         val params = JSONObject().apply {
             put("name", name)
@@ -208,7 +208,7 @@ class AdminHomeFragment : Fragment() {
     }
 
     private fun getNextFacultyId(callback: (String) -> Unit) {
-        val url = "http://192.168.224.54/UniValut/getNextFacultyId.php"
+        val url = "https://api-9buk.onrender.com/getNextFacultyId.php"
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->

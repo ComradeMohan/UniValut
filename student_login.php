@@ -1,14 +1,8 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "univalut_db";
+include('db_online.php');
 
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    echo json_encode(["success" => false, "message" => "Connection failed"]);
-    exit();
-}
+$student_number = $_GET['student_number'] ?? '';
+$password = $_GET['password'] ?? '';
 
 $student_number = $conn->real_escape_string($student_number);
 $password = $conn->real_escape_string($password);

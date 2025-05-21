@@ -3,5 +3,11 @@
     <style name="Base.Theme.UniValut" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
 <!--        <item name="colorPrimary">@color/black</item> &ndash;&gt;-->
+
+        <item name="android:statusBarColor">@color/my_status_bar_color</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+
+        <item name="notificationIcon">#FF0000</item>  <!-- Red -->
     </style>
 </resources>

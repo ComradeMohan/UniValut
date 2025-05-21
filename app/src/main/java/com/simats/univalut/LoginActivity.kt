@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
         builder.show()
     }
     private fun sendForgotPasswordRequest(userId: String) {
-        val url = "http://192.168.224.54/univalut/forgot_password.php" // Adjust as needed
+        val url = "https://api-9buk.onrender.com/forgot_password.php" // Adjust as needed
 
         val json = JSONObject().apply {
             put("student_number", userId) // change "user_id" to "student_number"
@@ -101,7 +101,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginUser(studentNumber: String, password: String) {
-        val url = "http://192.168.224.54/univalut/login.php" // Use 10.0.2.2 for emulator
+        val url = "https://api-9buk.onrender.com/login.php" // Use 10.0.2.2 for emulator
 
         val json = JSONObject().apply {
             put("student_number", studentNumber)

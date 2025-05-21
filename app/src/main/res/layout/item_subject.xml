@@ -12,11 +12,13 @@
         android:id="@+id/tvSubjectName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Subject Name" />
+        android:text="Subject Name"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/tvSubjectCredits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Credits" />
+        android:text="Credits"
+        android:textColor="@color/black"/>
 </LinearLayout>

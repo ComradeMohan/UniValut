@@ -32,7 +32,7 @@ $stmt->close();
 
 // Insert new admin
 $stmt = $conn->prepare("INSERT INTO admins (name, phone_number, email, admin_id, password) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("sssss", $name, $phone, $email, $admin_id, $hashed_password);
+$stmt->bind_param("sssss", $name, $phone, $email, $admin_id, $password);
 
 if ($stmt->execute()) {
     echo json_encode(["success" => true, "message" => "Admin registered successfully."]);

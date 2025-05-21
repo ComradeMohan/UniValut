@@ -46,7 +46,8 @@ dependencies {
     implementation ("androidx.fragment:fragment-ktx:1.5.5")
 
     implementation ("com.google.android.gms:play-services-auth:21.1.0") // Use the latest version
-
+    //text to drawble for profile image
+    
 
 
     implementation(libs.androidx.core.ktx)

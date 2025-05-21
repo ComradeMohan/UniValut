@@ -51,7 +51,7 @@ class StudentGrades : Activity() {
 
                 for ((courseId, grade) in courseGradeMap) {
                     try {
-                        val url = URL("http://192.168.224.54/UniValut/submit_student_grades.php")
+                        val url = URL("https://api-9buk.onrender.com/submit_student_grades.php")
                         val conn = url.openConnection() as HttpURLConnection
                         conn.requestMethod = "POST"
                         conn.doOutput = true
@@ -86,7 +86,7 @@ class StudentGrades : Activity() {
     }
 
     private fun fetchGradesFromServer(collegeId: String) {
-        val urlStr = "http://192.168.224.54/UniValut/fetch_grades.php?college_id=$collegeId"
+        val urlStr = "https://api-9buk.onrender.com/fetch_grades.php?college_id=$collegeId"
 
         thread {
             try {
@@ -117,7 +117,7 @@ class StudentGrades : Activity() {
     }
 
     private fun fetchPendingCourses(studentId: String, departmentId: String) {
-        val urlStr = "http://192.168.224.54/UniValut/student_grades_pending.php?department_id=$departmentId&student_id=$studentId"
+        val urlStr = "https://api-9buk.onrender.com/student_grades_pending.php?department_id=$departmentId&student_id=$studentId"
 
         thread {
             try {

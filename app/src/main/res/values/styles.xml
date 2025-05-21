@@ -1,5 +1,8 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="android:statusBarColor">@color/my_status_bar_color</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="CalendarDayHeader">

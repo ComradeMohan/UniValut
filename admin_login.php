@@ -18,10 +18,11 @@ $result = $stmt->get_result();
 
 if ($result->num_rows === 1) {
     $admin = $result->fetch_assoc();
-    if (password_verify($password, $admin['password'])) {
+    // Direct comparison (no hashing)
+    if ($password === $admin['password']) {
         echo json_encode([
             "success" => true,
-            "user_type" => "admin" // Optional: if you want name too
+            "user_type" => "admin"
         ]);
     } else {
         echo json_encode(["success" => false, "message" => "Invalid password."]);

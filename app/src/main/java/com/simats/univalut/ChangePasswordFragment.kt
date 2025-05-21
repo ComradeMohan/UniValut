@@ -92,6 +92,9 @@ class ChangePasswordFragment : Fragment() {
                 } else if (userType == "student") {
                     params["student_number"] = facultyId!!  // assuming it's the student number here
                 }
+                else if(userType == "admin"){
+                    params["admin_id"] = facultyId
+                }
 
                 params["old_password"] = oldPassword
                 params["new_password"] = newPassword

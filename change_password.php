@@ -16,7 +16,10 @@ if ($conn->connect_error) {
 $response = array();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $userId = isset($_POST['faculty_id']) ? $_POST['faculty_id'] : (isset($_POST['student_number']) ? $_POST['student_number'] : null);
+    $userId = isset($_POST['faculty_id']) ? $_POST['faculty_id'] :
+         (isset($_POST['student_number']) ? $_POST['student_number'] :
+         (isset($_POST['admin_id']) ? $_POST['admin_id'] : null));
+
     $oldPassword = $_POST['old_password'];
     $newPassword = $_POST['new_password'];
     $userType = $_POST['user_type'];
@@ -25,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $userMap = [
         'faculty' => ['table' => 'faculty_new', 'id_column' => 'login_id'],
         'student' => ['table' => 'students_new', 'id_column' => 'student_number'],
-        'admin'   => ['table' => 'admins', 'id_column' => 'login_id']
+        'admin'   => ['table' => 'admins', 'id_column' => 'admin_id']
     ];
 
     if (!isset($userMap[$userType])) {
@@ -60,7 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $response['success'] = false;
             $response['message'] = "Old password is incorrect";
         }
-    } else {
+    } 
+    else {
         $response['success'] = false;
         $response['message'] = "User not found";
     }

@@ -410,6 +410,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:textColor="#000000"
             app:layout_constraintTop_toBottomOf="@id/gradeDistributionLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -431,6 +432,7 @@
                     android:layout_height="wrap_content"
                     android:text="S: 0%"
                     android:textSize="12sp"
+                    android:textColor="#375E97"
                     android:layout_marginStart="4dp" />
 
             </LinearLayout>
@@ -452,6 +454,7 @@
                     android:layout_height="wrap_content"
                     android:text="A: 0%"
                     android:textSize="12sp"
+                    android:textColor="#FB6542"
                     android:layout_marginStart="4dp" />
 
             </LinearLayout>

@@ -31,6 +31,7 @@
                 app:cardCornerRadius="16dp"
                 android:background="@color/lightBackground"
                 app:cardElevation="4dp">
+
                 <CalendarView
                     android:id="@+id/calendarView"
                     android:layout_width="match_parent"

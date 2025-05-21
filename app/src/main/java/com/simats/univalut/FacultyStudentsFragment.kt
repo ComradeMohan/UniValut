@@ -1,5 +1,10 @@
 package com.simats.univalut
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,8 +13,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -70,7 +77,7 @@ class FacultyStudentsFragment : Fragment() {
 
     // Function to fetch the list of students from the college
     private fun fetchStudentsByCollege(college: String) {
-        val url = "http://192.168.224.54/UniValut/fetch_students_by_college.php?college=$college"
+        val url = "https://api-9buk.onrender.com/fetch_students_by_college.php?college=$college"
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
@@ -125,9 +132,40 @@ class FacultyStudentsFragment : Fragment() {
             view.findViewById<TextView>(R.id.studentName).text = name
             view.findViewById<TextView>(R.id.studentId).text = number
 
+            val studentImageView = view.findViewById<ImageView>(R.id.studentImage)
+
+            if (name.isNotEmpty()) {
+                val firstLetter = name[0].uppercaseChar()
+                studentImageView.setImageDrawable(getLetterDrawable(firstLetter))
+            } else {
+                // Optionally set a default drawable or clear image
+                studentImageView.setImageDrawable(null)
+            }
+
             studentsListLayout.addView(view)
         }
     }
+    private fun getLetterDrawable(letter: Char, size: Int = 80): BitmapDrawable {
+        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+
+        val paint = Paint()
+        paint.isAntiAlias = true
+        paint.color = ContextCompat.getColor(requireContext(), R.color.blue_focus) // Your desired circle color
+        canvas.drawCircle(size / 2f, size / 2f, size / 2f, paint)
+
+        paint.color = Color.WHITE
+        paint.textSize = size * 0.5f
+        paint.textAlign = Paint.Align.CENTER
+        val fontMetrics = paint.fontMetrics
+        val x = size / 2f
+        val y = size / 2f - (fontMetrics.ascent + fontMetrics.descent) / 2
+        canvas.drawText(letter.toString(), x, y, paint)
+
+        return BitmapDrawable(resources, bitmap)
+    }
+
+
 
     companion object {
         fun newInstance(facultyId: String): FacultyStudentsFragment {

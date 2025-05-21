@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -31,11 +33,28 @@ class FacultyHomeFragment : Fragment() {
     private var _binding: FragmentFacultyHomeBinding? = null
     private val binding get() = _binding!!
 
+
+    private lateinit var editTextQuickNote: EditText
+    private lateinit var buttonSaveNote: Button
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_faculty_home, container, false)
+
+
+        editTextQuickNote = view.findViewById(R.id.editTextQuickNote)
+        buttonSaveNote = view.findViewById(R.id.buttonSaveNote)
+
+        // Load saved note
+
+
+        buttonSaveNote.setOnClickListener {
+            val note = editTextQuickNote.text.toString().trim()
+            saveQuickNote(note)
+            Toast.makeText(requireContext(), "Note saved", Toast.LENGTH_SHORT).show()
+        }
 
         facultyId = arguments?.getString("ID")
         val facultyNameTextView: TextView = view.findViewById(R.id.facultyNameTextView)
@@ -66,7 +85,7 @@ class FacultyHomeFragment : Fragment() {
                 Toast.makeText(requireContext(), "College name not available", Toast.LENGTH_SHORT).show()
             }
         }
-
+        loadQuickNote()
         val sendAnnounce: LinearLayout = view.findViewById(R.id.sendAnnouncementButton)
         sendAnnounce.setOnClickListener {
             val calendar = if (!collegeName.isNullOrEmpty()) {
@@ -87,9 +106,22 @@ class FacultyHomeFragment : Fragment() {
 
         return view
     }
+    private fun saveQuickNote(note: String) {
+        val sharedPref = requireContext().getSharedPreferences("faculty_prefs", android.content.Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("quick_note_${facultyId}", note)
+            apply()
+        }
+    }
+
+    private fun loadQuickNote() {
+        val sharedPref = requireContext().getSharedPreferences("faculty_prefs", android.content.Context.MODE_PRIVATE)
+        val savedNote = sharedPref.getString("quick_note_${facultyId}", "")
+        editTextQuickNote.setText(savedNote)
+    }
 
     private fun fetchLatestNotice(college: String) {
-        val url = "http://192.168.224.54/UniValut/get_latest_notice.php?college=$college"
+        val url = "https://api-9buk.onrender.com/get_latest_notice.php?college=$college"
         val ctx = context ?: return
         val queue = Volley.newRequestQueue(ctx)
 
@@ -124,7 +156,7 @@ class FacultyHomeFragment : Fragment() {
 
         override fun doInBackground(vararg params: String?): Pair<String, String>? {
             val facultyId = params[0] ?: return null
-            val urlString = "http://192.168.224.54/UniValut/get_faculty_name.php?facultyId=$facultyId"
+            val urlString = "https://api-9buk.onrender.com/get_faculty_name.php?facultyId=$facultyId"
             return try {
                 val url = URL(urlString)
                 val connection = url.openConnection() as HttpURLConnection

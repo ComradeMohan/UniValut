@@ -2,11 +2,14 @@ package com.simats.univalut
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import okhttp3.Call
 import okhttp3.Callback
@@ -32,7 +35,6 @@ class ProfileFragment : Fragment() {
     private lateinit var settingsButton: LinearLayout
     private lateinit var logoutButton: LinearLayout
 
-
     private var studentID: String? = null
     private var department: String? = null
     private var collegeName: String? = null
@@ -54,7 +56,6 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -72,14 +73,17 @@ class ProfileFragment : Fragment() {
         settingsButton = view.findViewById(R.id.settingsButton)
         logoutButton = view.findViewById(R.id.logoutButton)
 
+        // Set default placeholder (e.g., 'A')
+        profileImageView.setImageDrawable(getLetterDrawable('A'))
+
         // Set data
-        nameTextView.text = "Arun Kumar"
+        nameTextView.text = ""
         statusTextView.text = "Student"
         departmentTextView.text = "Dept: "
-        emailTextView.text = "arun.sse@saveetha.com"
+        emailTextView.text = "MAIL"
         phoneTextView.text = "Dept: CSE"
         regNoTextView.text = "Reg No: 192XXXXX"
-        yearTextView.text = "Year 3"
+        yearTextView.text = "Year X"
 
         val studentID = arguments?.getString("studentID")
         if (studentID != null) {
@@ -87,7 +91,7 @@ class ProfileFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Student ID not found", Toast.LENGTH_SHORT).show()
         }
-        
+
         // Button click listeners
         academicRecordsButton.setOnClickListener {
             if (studentID != null && department != null && collegeName != null) {
@@ -102,21 +106,19 @@ class ProfileFragment : Fragment() {
             }
         }
 
-
-        val helpSupportButton = view.findViewById<LinearLayout>(R.id.helpSupportButton)
         helpSupportButton.setOnClickListener {
             val changePasswordFragment = ChangePasswordFragment()
             val bundle = Bundle()
-            bundle.putString("ID", studentID)  // Pass the faculty ID
-            bundle.putString("userType", "student")  // Specify the user type
+            bundle.putString("ID", studentID)
+            bundle.putString("userType", "student")
             changePasswordFragment.arguments = bundle
 
-            // Navigate to Change Password Fragment
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, changePasswordFragment)
                 .addToBackStack(null)
                 .commit()
         }
+
         settingsButton.setOnClickListener {
             Toast.makeText(requireContext(), "Settings Clicked", Toast.LENGTH_SHORT).show()
         }
@@ -133,7 +135,7 @@ class ProfileFragment : Fragment() {
 
     private fun fetchStudentData(studentNumber: String) {
         val client = OkHttpClient()
-        val url = "http://192.168.224.54/UniValut/get_student.php?student_number=$studentNumber"
+        val url = "https://api-9buk.onrender.com/get_student.php?student_number=$studentNumber"
 
         val request = Request.Builder()
             .url(url)
@@ -156,20 +158,26 @@ class ProfileFragment : Fragment() {
             }
         })
     }
+
     private fun parseAndDisplayData(jsonData: String) {
         try {
             val jsonObject = JSONObject(jsonData)
             if (jsonObject.getBoolean("success")) {
                 val studentData = jsonObject.getJSONObject("data")
 
-                // Update UI with actual data
-                nameTextView.text = studentData.getString("full_name")
+                val fullName = studentData.getString("full_name")
+                nameTextView.text = fullName
                 regNoTextView.text = "Reg No: ${studentData.getString("student_number")}"
                 phoneTextView.text = "Dept: ${studentData.getString("department")}"
                 emailTextView.text = studentData.getString("email")
                 yearTextView.text = "${studentData.getString("year_of_study")}"
                 departmentTextView.text = studentData.get("department").toString()
-                // college field can be added if available in your UI
+
+                // Set profile image as first letter of name
+                if (fullName.isNotEmpty()) {
+                    val firstLetter = fullName[0].uppercaseChar()
+                    profileImageView.setImageDrawable(getLetterDrawable(firstLetter))
+                }
 
                 studentID = studentData.getString("student_number")
                 department = studentData.getString("department")
@@ -182,5 +190,28 @@ class ProfileFragment : Fragment() {
             e.printStackTrace()
             Toast.makeText(requireContext(), "Error parsing data", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    // Function to create a circular drawable with the given letter
+    private fun getLetterDrawable(letter: Char, size: Int = 120): BitmapDrawable {
+        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+
+        // Draw a colored circle
+        val paint = Paint()
+        paint.isAntiAlias = true
+        paint.color = ContextCompat.getColor(requireContext(), R.color.blue_focus) // Use your color
+        canvas.drawCircle(size / 2f, size / 2f, size / 2f, paint)
+
+        // Draw the letter
+        paint.color = Color.WHITE
+        paint.textSize = size * 0.5f
+        paint.textAlign = Paint.Align.CENTER
+        val fontMetrics = paint.fontMetrics
+        val x = size / 2f
+        val y = size / 2f - (fontMetrics.ascent + fontMetrics.descent) / 2
+        canvas.drawText(letter.toString(), x, y, paint)
+
+        return BitmapDrawable(resources, bitmap)
     }
 }

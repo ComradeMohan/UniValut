@@ -56,7 +56,7 @@ class StudentCalenderFragment : Fragment() {
     }
 
     private fun fetchStudentName(studentID: String) {
-        val url = "http://192.168.224.54/UniValut/fetch_student_name.php?studentID=$studentID" // Adjust the URL
+        val url = "https://api-9buk.onrender.com/fetch_student_name.php?studentID=$studentID" // Adjust the URL
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null,
@@ -83,7 +83,7 @@ class StudentCalenderFragment : Fragment() {
     }
 
     private fun fetchEvents(collegeName: String) {
-        val url = "http://192.168.224.54/UniValut/getEvents.php?college_name=$collegeName" // Adjust the URL
+        val url = "https://api-9buk.onrender.com/getEvents.php?college_name=$collegeName" // Adjust the URL
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null,
