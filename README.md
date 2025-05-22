@@ -66,4 +66,4 @@ Build UniValut from the source and install dependencies:
 git clone https://github.com/ComradeMohan/UniValut
 ```
 
-You can download the app : [Download APP](https://github.com/ComradeMohan/UniValut/releases/tag/v1.0)
+You can download the app : [🔗Download APP](https://github.com/ComradeMohan/UniValut/releases/tag/v1.0)
