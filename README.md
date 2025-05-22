@@ -66,4 +66,9 @@ Build UniValut from the source and install dependencies:
 git clone https://github.com/ComradeMohan/UniValut
 ```
 
-You can download the app : [🔗Download APP](https://github.com/ComradeMohan/UniValut/releases/tag/v1.0)
+
+<p align="center">
+  <a href="https://github.com/ComradeMohan/UniValut/releases/download/v1.0/UniValut.apk" target="_blank">
+    <img src="https://img.shields.io/badge/⬇️%20Download%20APK-v1.0-green?style=for-the-badge&logo=android" alt="Download APK" />
+  </a>
+</p>
