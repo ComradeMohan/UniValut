@@ -3,15 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+<<<<<<< HEAD
     android:padding="16dp">
+=======
+    android:padding="16dp"
+    android:background="@drawable/bg_gradient_dark_svg">
+>>>>>>> 6d2b464 (grades pages)
 
     <TextView
         android:id="@+id/courseTypeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Completed Courses"
+<<<<<<< HEAD
         android:textSize="18sp"
+=======
+        android:textColor="@color/blue_focus"
+        android:textStyle="bold"
+        android:textSize="22sp"
+>>>>>>> 6d2b464 (grades pages)
         android:layout_marginBottom="8dp"/>
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/search_background"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:hint="completed courses"
+        android:textColor="?attr/app_name_color"
+        android:imeOptions="actionSearch"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp" />
 
     <ListView
         android:id="@+id/coursesListView"

@@ -6,17 +6,27 @@
     android:padding="16dp"
     android:layout_marginTop="10dp"
     android:background="@drawable/rounded_border"
-    android:backgroundTint="@color/lightBackground">
+    android:backgroundTint="?attr/pendingSubject">
 
     <TextView
         android:id="@+id/tvSubjectName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:text="Subject Name" />
+=======
+        android:text="Subject Name"
+        android:textColor="?attr/app_name_color"/>
+>>>>>>> 6d2b464 (grades pages)
 
     <TextView
         android:id="@+id/tvSubjectCredits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:text="Credits" />
+=======
+        android:text="Credits"
+        android:textColor="?attr/app_name_color"/>
+>>>>>>> 6d2b464 (grades pages)
 </LinearLayout>

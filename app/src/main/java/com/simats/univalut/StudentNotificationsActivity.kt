@@ -36,9 +36,13 @@ class StudentNotificationsActivity : AppCompatActivity() {
         // Fetch notices from PHP backend
         fetchNotices(collegeName ?: "")
     }
-
+    //changed in online mode
     private fun fetchNotices(collegeName: String) {
+<<<<<<< HEAD
         val url = "http://192.168.103.54/UniValut/fetch_notices.php?college=$collegeName"
+=======
+        val url = "https://api-9buk.onrender.com/fetch_notices.php?college=$collegeName"
+>>>>>>> 6d2b464 (grades pages)
 
         Thread {
             try {
@@ -57,7 +61,7 @@ class StudentNotificationsActivity : AppCompatActivity() {
                 }
 
                 // Parse the JSON response
-                val jsonResponse = JSONArray(response.toString())
+                val jsonResponse = JSONArray(response.toString().trim())
                 runOnUiThread {
                     // Clear previous notifications
                     notificationsContainer.removeAllViews()

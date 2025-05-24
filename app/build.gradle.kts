@@ -45,8 +45,14 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.3")
     implementation ("androidx.fragment:fragment-ktx:1.5.5")
 
+<<<<<<< HEAD
 
 
+=======
+    implementation ("com.google.android.gms:play-services-auth:21.1.0") // Use the latest version
+    //text to drawble for profile image
+    implementation ("com.applandeo:material-calendar-view:1.9.2")
+>>>>>>> 6d2b464 (grades pages)
 
 
     implementation(libs.androidx.core.ktx)
@@ -57,6 +63,7 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.volley)
     implementation(libs.androidx.tools.core)
+    implementation(libs.androidx.media3.common.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -5,6 +5,8 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
     app:cardCornerRadius="8dp"
+    android:background="@drawable/rounded_border"
+    android:backgroundTint="?attr/pendingSubject"
     app:cardElevation="2dp"
     android:contentDescription="Notification Card">
 
@@ -13,17 +15,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="12dp"
-        android:gravity="center_vertical"
-        android:background="@color/lightBackground">
+        android:gravity="center_vertical">
 
         <!-- Profile Image with content description for accessibility -->
-        <ImageView
-            android:id="@+id/profileImageView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/profile_header_background"
-            android:scaleType="centerCrop"
-            android:contentDescription="Profile Image" />
+
 
         <!-- Notification Content -->
         <LinearLayout
@@ -33,19 +28,16 @@
             android:orientation="vertical"
             android:layout_marginStart="12dp">
 
-            <TextView
-                android:id="@+id/notification_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Announcement"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+
 
             <TextView
                 android:id="@+id/tvNoticeTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Notice Title"
+                android:textColor="@color/blue_focus"
+                android:textStyle="bold"
+                android:textSize="20dp"
                 android:contentDescription="Notice Title" />
 
             <TextView

@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:padding="16dp"
     android:gravity="center_vertical"
-    android:background="@color/lightBackground">
+    android:background="?attr/pendingSubject">
 
     <ImageView
         android:id="@+id/fileIcon"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="Sample File Name"
             android:textSize="16sp"
-            android:textColor="@android:color/black" />
+            android:textColor="?attr/app_name_color" />
 
         <!-- File Details TextView -->
         <TextView

@@ -6,7 +6,7 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@drawable/bg_gradient_dark_svg"
     tools:context=".MainActivity">
 
     <!-- Background Illustration (faded) -->
@@ -40,7 +40,7 @@
             android:layout_width="120dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_univault_logo"
+            android:src="@drawable/ic_splash_logo_update"
             android:contentDescription="@string/logo_desc" />
 
         <!-- UniVault Title -->
@@ -52,7 +52,7 @@
             android:text="UniVault"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:textColor="#000000"
+            android:textColor="?attr/app_name_color"
             android:gravity="center" />
 
         <!-- Subtitle -->
@@ -70,10 +70,12 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="60dp"
             android:layout_marginTop="180dp"
             style="@style/Widget.MaterialComponents.Button"
             android:text="Login"
+            android:textStyle="bold"
+            android:textSize="15dp"
             android:textAllCaps="false"
             app:cornerRadius="8dp"
             app:backgroundTint="@color/primary"
@@ -83,14 +85,15 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/signUpButton"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="15dp"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:text="Sign Up"
             android:textAllCaps="false"
             app:cornerRadius="8dp"
             app:strokeColor="@color/primary"
             app:strokeWidth="2dp"
+            android:textStyle="bold"
             android:textColor="@color/primary" />
 
     </LinearLayout>

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/courseCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+<<<<<<< HEAD
     android:layout_margin="12dp"
     android:padding="16dp"
     android:background="@android:color/white">
@@ -18,12 +20,31 @@
         <TextView
             android:id="@+id/courseTitle"
             android:layout_width="match_parent"
+=======
+    app:cardCornerRadius="16dp"
+    android:layout_marginBottom="10dp"
+    android:padding="12dp">
+
+    <!-- Main horizontal layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:background="@drawable/cgpa_gradient">
+
+        <!-- Left section: Course info -->
+        <LinearLayout
+            android:layout_width="0dp"
+>>>>>>> 6d2b464 (grades pages)
             android:layout_height="wrap_content"
             android:text="Course Title"
             android:textAppearance="@android:style/TextAppearance.Material.Medium"
             android:textStyle="bold"
             android:textColor="@android:color/black" />
 
+<<<<<<< HEAD
         <TextView
             android:id="@+id/courseCode"
             android:layout_width="match_parent"
@@ -33,11 +54,41 @@
             android:textColor="@android:color/darker_gray"
             android:layout_marginTop="4dp" />
 
+=======
+            <TextView
+                android:id="@+id/courseTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Course Title"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:textColor="?attr/app_name_color"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/courseCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Credits: 4"
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textColor="@android:color/darker_gray" />
+        </LinearLayout>
+
+        <!-- Right section: Spinner -->
+>>>>>>> 6d2b464 (grades pages)
         <Spinner
             android:id="@+id/spinnerGrade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
             android:layout_marginTop="12dp"
             tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
+=======
+            android:layout_marginStart="12dp"
+            tools:ignore="TouchTargetSizeCheck"
+            android:backgroundTint="?attr/colorPrimary" />
+    </LinearLayout>
+
+>>>>>>> 6d2b464 (grades pages)
 </androidx.cardview.widget.CardView>
