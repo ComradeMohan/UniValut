@@ -55,7 +55,7 @@ class FacultyStudentsFragment : Fragment() {
 
     // Function to fetch the college name from the server
     private fun fetchCollegeName(facultyId: String) {
-        val url = "http://192.168.224.54/UniValut/get_faculty_name.php?facultyId=$facultyId"
+        val url = "https://api-9buk.onrender.com/get_faculty_name.php?facultyId=$facultyId"
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->

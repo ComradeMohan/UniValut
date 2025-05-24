@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@drawable/bg_gradient_dark_svg"
     android:fillViewport="true">
 
     <LinearLayout
@@ -17,15 +17,25 @@
         <ImageView
             android:layout_width="120dp"
             android:layout_height="100dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_univault_logo"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_splash_logo_update"
             tools:ignore="ContentDescription" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="UNIVAULT"
+            android:textColor="?attr/app_name_color"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/alata_regular" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Create Student Account"
+            android:textColor="?attr/app_name_color"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp"
@@ -43,12 +53,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Full Name *"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:boxBackgroundColor="?attr/inputBgBox"
+            android:textColorHint="?attr/app_name_color"
+            app:startIconDrawable="@drawable/ic_person"
+            app:startIconTint="@color/blue_focus"
+            app:boxStrokeColor="@color/stroke_selector"
+            app:hintTextColor="@color/blue_focus"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fullNameInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/app_name_color"
                 android:inputType="textPersonName" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -58,12 +79,23 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Student number *"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            android:textColorHint="?attr/app_name_color"
+            app:boxStrokeColor="@color/stroke_selector"
+            app:hintTextColor="@color/blue_focus"
+            app:boxBackgroundColor="?attr/inputBgBox"
+            app:startIconDrawable="@drawable/ic_student_number"
+            app:startIconTint="@color/blue_focus"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/studentNumberInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/app_name_color"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -73,12 +105,23 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Email Address *"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            android:textColorHint="?attr/app_name_color"
+            app:boxStrokeColor="@color/stroke_selector"
+            app:hintTextColor="@color/blue_focus"
+            app:boxBackgroundColor="?attr/inputBgBox"
+            app:startIconDrawable="@drawable/ic_email"
+            app:startIconTint="@color/blue_focus"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/app_name_color"
                 android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -88,13 +131,25 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Password *"
+            android:textColorHint="?attr/app_name_color"
+            app:boxStrokeColor="@color/stroke_selector"
+            app:hintTextColor="@color/blue_focus"
             app:endIconMode="password_toggle"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:endIconTint="@color/blue_focus"
+            app:boxBackgroundColor="?attr/inputBgBox"
+            app:startIconDrawable="@drawable/ic_password"
+            app:startIconTint="@color/blue_focus"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/app_name_color"
                 android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -104,13 +159,25 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Confirm Password *"
+            android:textColorHint="?attr/app_name_color"
+            app:boxStrokeColor="@color/stroke_selector"
+            app:hintTextColor="@color/blue_focus"
             app:endIconMode="password_toggle"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:endIconTint="@color/blue_focus"
+            app:boxBackgroundColor="?attr/inputBgBox"
+            app:startIconDrawable="@drawable/ic_password"
+            app:startIconTint="@color/blue_focus"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirmPasswordInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/app_name_color"
                 android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -119,9 +186,17 @@
             android:id="@+id/collegeTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColorHint="?attr/app_name_color"
+            app:boxStrokeColor="@color/stroke_selector"
+            app:hintTextColor="@color/blue_focus"
             android:layout_marginTop="16dp"
             android:hint="Select College *"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:boxBackgroundColor="?attr/inputBgBox"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"            >
 
             <AutoCompleteTextView
                 android:id="@+id/collegeAutoCompleteTextView"
@@ -129,6 +204,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="none"
                 android:focusable="false"
+                android:textColor="?attr/app_name_color"
                 android:clickable="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,7 +214,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Department *"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            android:textColorHint="?attr/app_name_color"
+            app:boxStrokeColor="@color/stroke_selector"
+            app:hintTextColor="@color/blue_focus"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:boxBackgroundColor="?attr/inputBgBox"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"        >
 
 
             <AutoCompleteTextView
@@ -147,6 +231,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="none"
                 android:focusable="false"
+                android:textColor="?attr/app_name_color"
                 android:clickable="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -157,7 +242,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Year of Study"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            android:textColorHint="?attr/app_name_color"
+            app:boxStrokeColor="@color/stroke_selector"
+            app:hintTextColor="@color/blue_focus"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:boxBackgroundColor="?attr/inputBgBox"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"        >
 
             <AutoCompleteTextView
                 android:id="@+id/yearOfStudyAutoCompleteTextView"
@@ -165,6 +258,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="none"
                 android:focusable="false"
+                android:textColor="?attr/app_name_color"
                 android:clickable="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -210,22 +304,40 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/signInWithEmailButton"
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/googleLoginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            android:gravity="center"
             android:padding="12dp"
-            android:text="Sign in with College email"
-            android:textSize="16sp"
-            android:textColor="#757575"
-            android:background="@android:color/white"
-            android:drawableStart="@drawable/ic_google_logo"
-            android:drawablePadding="16dp"
-            app:strokeColor="#E0E0E0"
-            app:strokeWidth="1dp"
-            style="?attr/borderlessButtonStyle" />
+            android:background="@drawable/bg_google_button"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:elevation="2dp">
 
+            <ImageView
+                android:id="@+id/google_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/google_g_icon_2025"
+                android:contentDescription="Google Logo"
+                android:layout_marginEnd="12dp" />
+
+            <TextView
+                android:id="@+id/login_with_google_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Register with College Mail"
+                android:textSize="16sp"
+                android:textColor="?attr/app_name_color"
+                android:textStyle="bold" />
+        </LinearLayout>
         <TextView
             android:id="@+id/alreadyHaveAccountTextView"
             android:layout_width="wrap_content"
@@ -234,7 +346,7 @@
             android:clickable="true"
             android:focusable="true"
             android:text="Already have an account? Login"
-            android:textColor="@color/colorPrimary"
+            android:textColor="#1E88E5"
             android:textSize="16sp" />
 
     </LinearLayout>

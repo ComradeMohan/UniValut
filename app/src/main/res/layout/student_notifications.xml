@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#FFFFFF"
+    android:background="@drawable/bg_gradient_dark_svg"
     tools:context=".StudentNotificationsActivity">
 
     <TextView
@@ -13,7 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="College Name"
-        android:textSize="18sp"
+        android:textSize="20sp"
+        android:textStyle="italic"
         android:padding="16dp" />
 
     <TextView
@@ -22,7 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="Notifications"
-        android:textSize="20sp"
+        android:textSize="25sp"
+        android:textColor="@color/blue_focus"
         android:textStyle="bold" />
 
     <ScrollView

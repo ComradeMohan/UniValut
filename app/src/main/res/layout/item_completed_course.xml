@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp">
+    android:padding="12dp"
+    android:background="@drawable/rounded_corners"
+    android:backgroundTint="?attr/pendingSubject">
 
     <!-- Course Code + Name -->
     <TextView
@@ -12,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="CSA05 Advanced Programming"
         android:textSize="15sp"
-        android:textColor="#212121"
+        android:textColor="?attr/app_name_color"
         android:maxLines="1"
         android:ellipsize="end"
         android:textStyle="bold"
@@ -29,7 +31,7 @@
         android:layout_height="wrap_content"
         android:text="A"
         android:textSize="18sp"
-        android:textColor="#111"
+        android:textColor="?attr/app_name_color"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvCourseName"

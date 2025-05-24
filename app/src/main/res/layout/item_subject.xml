@@ -6,19 +6,19 @@
     android:padding="16dp"
     android:layout_marginTop="10dp"
     android:background="@drawable/rounded_border"
-    android:backgroundTint="@color/lightBackground">
+    android:backgroundTint="?attr/pendingSubject">
 
     <TextView
         android:id="@+id/tvSubjectName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Subject Name"
-        android:textColor="@color/black"/>
+        android:textColor="?attr/app_name_color"/>
 
     <TextView
         android:id="@+id/tvSubjectCredits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Credits"
-        android:textColor="@color/black"/>
+        android:textColor="?attr/app_name_color"/>
 </LinearLayout>

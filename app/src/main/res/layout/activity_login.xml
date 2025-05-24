@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@drawable/bg_gradient_dark_svg"
     android:fillViewport="true">
 
     <LinearLayout
@@ -17,15 +17,24 @@
         <ImageView
             android:layout_width="120dp"
             android:layout_height="100dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_univault_logo"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_splash_logo_update"
             tools:ignore="ContentDescription" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="UNIVAULT"
+            android:textColor="?attr/app_name_color"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/alata_regular" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Welcome Back"
+            android:textColor="?attr/app_name_color"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
@@ -41,15 +50,24 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Login ID"
-            app:boxStrokeColor="@color/blue_focus"
+            android:hint="Enter your Login ID"
+            app:boxBackgroundColor="?attr/inputBgBox"
+            android:textColorHint="?attr/app_name_color"
+            app:startIconDrawable="@drawable/ic_person"
+            app:startIconTint="@color/blue_focus"
+            app:boxStrokeColor="@color/stroke_selector"
             app:hintTextColor="@color/blue_focus"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/app_name_color"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -58,17 +76,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            app:boxBackgroundColor="?attr/inputBgBox"
             android:hint="Password"
-            app:boxStrokeColor="@color/blue_focus"
+            android:textColorHint="?attr/app_name_color"
+            app:boxStrokeColor="@color/stroke_selector"
             app:hintTextColor="@color/blue_focus"
+            app:startIconDrawable="@drawable/ic_password"
+            app:startIconTint="@color/blue_focus"
             app:endIconMode="password_toggle"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:endIconTint="@color/blue_focus"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="?attr/app_name_color" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,9 +180,9 @@
                 android:id="@+id/login_with_google_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Login with Google"
+                android:text="Login with College Mail"
                 android:textSize="16sp"
-                android:textColor="#000000"
+                android:textColor="?attr/app_name_color"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -185,7 +213,7 @@
             android:clickable="true"
             android:focusable="true"
             android:text="Don't have an account? Sign Up"
-            android:textColor="@color/colorPrimary"
+            android:textColor="#1E88E5"
             android:textSize="16sp" />
 
     </LinearLayout>

@@ -14,6 +14,12 @@ import androidx.fragment.app.Fragment
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.FormBody
+import okhttp3.OkHttpClient
+import okhttp3.Response
+import java.io.IOException
 
 class FacultyProfileFragment : Fragment() {
 
@@ -25,6 +31,7 @@ class FacultyProfileFragment : Fragment() {
     private lateinit var phoneTextView: TextView
     private lateinit var regNoTextView: TextView
     private lateinit var logoutButton: LinearLayout
+    private lateinit var settingsButton: LinearLayout
 
     private var facultyId: String? = null
 
@@ -48,6 +55,7 @@ class FacultyProfileFragment : Fragment() {
         phoneTextView = view.findViewById(R.id.phoneTextView)
         regNoTextView = view.findViewById(R.id.regNoTextView)
         logoutButton = view.findViewById(R.id.logoutButton)
+        settingsButton = view.findViewById(R.id.settingsButton)
 
         // Set default placeholder (e.g., 'F' for Faculty)
         profileImageView.setImageDrawable(getLetterDrawable('F'))
@@ -66,7 +74,63 @@ class FacultyProfileFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+        //changes made in online mode
+        settingsButton.setOnClickListener {
+            val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_feedback, null)
+            val etFeedback = dialogView.findViewById<EditText>(R.id.etFeedback)
+            val tvUserId = dialogView.findViewById<TextView>(R.id.tvUserId)
 
+            // Set user ID
+            tvUserId.text = "User ID: ${facultyId ?: "Unknown"}"
+
+            val dialog = android.app.AlertDialog.Builder(requireContext())
+                .setTitle("Submit Feedback")
+                .setView(dialogView)
+                .setPositiveButton("Submit") { _, _ ->
+                    val feedback = etFeedback.text.toString().trim()
+                    val userId = facultyId ?: ""
+
+                    if (feedback.isEmpty()) {
+                        Toast.makeText(requireContext(), "Feedback cannot be empty", Toast.LENGTH_SHORT).show()
+                        return@setPositiveButton
+                    }
+
+                    // Send feedback using OkHttp
+                    val client = OkHttpClient()
+                    val requestBody = FormBody.Builder()
+                        .add("user_id", userId)
+                        .add("feedback", feedback)
+                        .build()
+
+                    val request = okhttp3.Request.Builder()
+                        .url("https://api-9buk.onrender.com/submit_feedback.php") // Replace with your actual URL
+                        .post(requestBody)
+                        .build()
+
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {
+                            activity?.runOnUiThread {
+                                Toast.makeText(requireContext(), "Failed to submit feedback", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        override fun onResponse(call: Call, response: Response) {
+                            val responseBody = response.body?.string()
+                            activity?.runOnUiThread {
+                                if (response.isSuccessful && responseBody?.contains("success") == true) {
+                                    Toast.makeText(requireContext(), "Feedback submitted successfully", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(requireContext(), "Server error: $responseBody", Toast.LENGTH_LONG).show()
+                                }
+                            }
+                        }
+                    })
+                }
+                .setNegativeButton("Cancel", null)
+                .create()
+
+            dialog.show()
+        }
         logoutButton.setOnClickListener {
             Toast.makeText(requireContext(), "Logout Clicked", Toast.LENGTH_SHORT).show()
             val sharedPreferences = requireContext().getSharedPreferences("user_sf", Context.MODE_PRIVATE)

@@ -175,5 +175,15 @@ class StudentGrades : Activity() {
         }
 
         courseContainer.addView(card)
+        val divider = View(this)
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            1 // 1 pixel height; use 1.dp if you prefer
+        )
+        params.setMargins(0, 8, 0, 8) // Optional: vertical spacing
+        divider.layoutParams = params
+        divider.setBackgroundColor(resources.getColor(android.R.color.transparent)) // Or your custom color
+
+        courseContainer.addView(divider)
     }
 }

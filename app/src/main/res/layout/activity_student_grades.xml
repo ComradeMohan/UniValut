@@ -5,17 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9F9F9">
+    android:background="@drawable/bg_gradient_dark_svg">
 
     <!-- Header -->
     <TextView
         android:id="@+id/tvHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="My Courses"
+        android:text="Pending Courses"
         android:textStyle="bold"
         android:textSize="22sp"
-        android:textColor="#000"
+        android:textColor="?attr/app_name_color"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
@@ -29,8 +29,8 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:hint="Search courses or codes"
+        android:background="@drawable/search_background"
         android:drawableStart="@android:drawable/ic_menu_search"
-
         android:paddingStart="16dp"
         android:textColor="#000"
         android:textColorHint="#888"
@@ -39,6 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginHorizontal="20dp"/>
+
 
     <!-- Scrollable Course List -->
     <ScrollView
@@ -69,7 +70,7 @@
         android:text="Submit Grades"
         android:textStyle="bold"
         android:textColor="#FFF"
-        android:backgroundTint="#5542F6"
+        android:background="@drawable/announcement_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

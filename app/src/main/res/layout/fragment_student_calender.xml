@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="@drawable/bg_gradient_dark_svg">
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -32,20 +32,19 @@
                 android:background="@color/lightBackground"
                 app:cardElevation="4dp">
 
-                <CalendarView
-                    android:id="@+id/calendarView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:background="@color/lightBackground"
-                    android:firstDayOfWeek="2"
-                    android:focusedMonthDateColor="#000000"
-                    android:unfocusedMonthDateColor="#888888"
-                    android:selectedWeekBackgroundColor="#2196F3"
-                    android:weekSeparatorLineColor="#DDDDDD"
-                    android:dateTextAppearance="@style/CalendarDateText"
-                    android:weekDayTextAppearance="@style/CalendarWeekDayText"/>
-            </androidx.cardview.widget.CardView>
+                    <CalendarView
+                        android:id="@+id/calendarView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/pendingSubject"
+                        android:firstDayOfWeek="2"
+                        android:focusedMonthDateColor="#C51A1A"
+                        android:unfocusedMonthDateColor="#888888"
+                        android:selectedWeekBackgroundColor="#2196F3"
+                        android:weekSeparatorLineColor="#DDDDDD"
+                        android:dateTextAppearance="@style/CalendarDateText"
+                        android:weekDayTextAppearance="@style/CalendarWeekDayText"/>
+                </androidx.cardview.widget.CardView>
 
             <!-- 🔖 Events Header -->
             <TextView
@@ -54,7 +53,7 @@
                 android:text="Events"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="#000000"
+                android:textColor="?attr/app_name_color"
                 android:layout_marginBottom="8dp"/>
 
             <!-- 📋 RecyclerView for Events -->

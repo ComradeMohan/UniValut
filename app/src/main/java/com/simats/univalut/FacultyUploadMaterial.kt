@@ -133,7 +133,7 @@ class FacultyUploadMaterial : AppCompatActivity() {
     }
 
     private fun fetchPDFs(college: String, course: String) {
-        val url = "http://192.168.224.54/UniValut/list_pdfs.php?college=$college&course=$course"
+        val url = "https://api-9buk.onrender.com/list_pdfs.php?college=$college&course=$course"
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->

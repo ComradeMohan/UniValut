@@ -13,6 +13,24 @@
         <!-- ✅ Add status bar customization -->
         <item name="android:statusBarColor">@color/my_status_bar_color</item>
         <item name="android:windowLightStatusBar">true</item>
+
+
+
+<!--        dark mode colors-->
+
+        <item name="app_name_color">#002B5C</item>
+        <item name="colorStrokeDefault">#E3F2FD </item>
+        <item name="inputBgBox">#F8FAFC</item>
+        <item name="pendingSubject">@color/lightBackground</item>
+        <item name="bottomNavigation">#ffff</item>
+        <item name="courseCode">#6e6e73</item>
+        <item name="courseName">#1C1C1E</item>
+        <item name="completeCourse">@color/lightGreen</item>
+        <item name="pendingCourse">@color/lightRed</item>
+<!--        font name-->
+
+
+
     </style>
 
     <style name="Theme.UniValut" parent="Base.Theme.UniValut" />

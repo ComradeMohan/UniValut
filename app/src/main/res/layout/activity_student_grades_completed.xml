@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@color/white">
+    android:background="@drawable/bg_gradient_dark_svg">
 
     <TextView
         android:id="@+id/courseTypeTextView"
@@ -13,8 +13,20 @@
         android:text="Completed Courses"
         android:textColor="@color/blue_focus"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:layout_marginBottom="8dp"/>
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/search_background"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:hint="completed courses"
+        android:textColor="?attr/app_name_color"
+        android:imeOptions="actionSearch"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp" />
 
     <ListView
         android:id="@+id/coursesListView"
