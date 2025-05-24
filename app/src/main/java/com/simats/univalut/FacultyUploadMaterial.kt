@@ -152,6 +152,83 @@ class FacultyUploadMaterial : AppCompatActivity() {
         Volley.newRequestQueue(this).add(request)
     }
 
+<<<<<<< HEAD
+=======
+    private fun fetchPDFs(college: String, course: String) {
+        val url = "https://api-9buk.onrender.com/list_pdfs.php?college=$college&course=$course"
+
+        val request = JsonObjectRequest(Request.Method.GET, url, null,
+            { response ->
+                try {
+                    if (response.getBoolean("success")) {
+                        val filesArray = response.getJSONArray("files")
+                        for (i in 0 until filesArray.length()) {
+                            val obj = filesArray.getJSONObject(i)
+                            val name = obj.getString("name")
+                            val fileUrl = obj.getString("url")
+                            val date = obj.getString("date")
+                            addPDFRow(name, fileUrl, date)
+                        }
+                    } else {
+                        Toast.makeText(this, "No files found", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Parsing error: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            },
+            { error ->
+                Toast.makeText(this, "Network error: ${error.message}", Toast.LENGTH_SHORT).show()
+            })
+
+        Volley.newRequestQueue(this).add(request)
+    }
+
+
+    private fun addPDFRow(fileName: String, fileUrl: String, uploadDate: String) {
+        val rowLayout = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            setPadding(10, 10, 10, 10)
+        }
+
+        val textView = TextView(this).apply {
+            text = "$fileName\nUploaded on: $uploadDate"
+            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+        }
+
+        val deleteBtn = Button(this).apply {
+            text = "Delete"
+            setOnClickListener { deleteFileFromServer(fileName) }
+        }
+
+        rowLayout.addView(textView)
+        rowLayout.addView(deleteBtn)
+        pdfContainer.addView(rowLayout)
+    }
+
+    private fun deleteFileFromServer(fileName: String) {
+        val url = "http://192.168.224.54/UniValut/delete_material.php"
+
+        val request = object : StringRequest(Method.POST, url,
+            Response.Listener {
+                Toast.makeText(this, "Deleted $fileName", Toast.LENGTH_SHORT).show()
+                pdfContainer.removeAllViews()
+                fetchPDFs(collegeName, courseCode)
+            },
+            Response.ErrorListener {
+                showError("Deletion failed")
+            }) {
+            override fun getParams(): Map<String, String> {
+                return mapOf(
+                    "college" to collegeName,
+                    "course" to courseCode,
+                    "file" to fileName
+                )
+            }
+        }
+
+        Volley.newRequestQueue(this).add(request)
+    }
+>>>>>>> 6d2b464 (grades pages)
 
     private fun showError(message: String) {
         // Display error message

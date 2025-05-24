@@ -66,6 +66,11 @@ class LoginActivity : AppCompatActivity() {
                             val jsonResponse = JSONObject(responseBody)
                             if (jsonResponse.getBoolean("success")) {
                                 val userType = jsonResponse.getString("user_type")
+                                val sf = getSharedPreferences("user_sf", MODE_PRIVATE)
+                                sf.edit().putBoolean("isLoggedIn",true).apply()
+                                sf.edit().putString("userType",userType).apply()
+                                sf.edit().putString("userID",""+name).apply()
+
                                 when (userType) {
 
                                     "student" -> {
@@ -85,6 +90,8 @@ class LoginActivity : AppCompatActivity() {
                                     }
 
                                 }
+
+
                                 finish()
                             } else {
                                 Toast.makeText(this@LoginActivity, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show()

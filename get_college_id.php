@@ -4,7 +4,7 @@ include "db.php";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $college_name = $_POST['college_name'];
 
-    $query = "SELECT id FROM colleges WHERE name = ?";
+    $query = "SELECT id FROM colleges WHERE TRIM(LOWER(name)) = TRIM(LOWER(?))";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $college_name);
     $stmt->execute();

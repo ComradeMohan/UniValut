@@ -21,6 +21,14 @@ class RegisterActivity : AppCompatActivity() {
     private var selectedCollegeId: String? = null
     private val collegeMap = mutableMapOf<String, String>()  // Maps college name → ID
 
+
+    private val collegeDomainMap = mapOf(
+        "Saveetha School of Engineering" to "saveetha.com",
+        "Another College Name" to "anothercollege.edu"
+        // Add other colleges and their domains here
+    )
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -59,6 +67,13 @@ class RegisterActivity : AppCompatActivity() {
             } else if (password != confirmPassword) {
                 Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
             } else {
+
+                val requiredDomain = collegeDomainMap[college]
+                if (requiredDomain != null && !email.endsWith("@$requiredDomain", ignoreCase = true)) {
+                    emailInput.error = "Email must end with @$requiredDomain"
+                    emailInput.requestFocus()
+                    return@setOnClickListener
+                }
                 registerUser(fullName, studentNumber, email, password, department, yearOfStudy, college)
             }
         }
@@ -70,7 +85,11 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun fetchCollegeList() {
+<<<<<<< HEAD
         val url = "http://192.168.103.54/UniValut/get_colleges.php"
+=======
+        val url = "https://api-9buk.onrender.com/get_colleges.php"
+>>>>>>> 6d2b464 (grades pages)
 
         val request = Request.Builder().url(url).get().build()
 
@@ -124,7 +143,11 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun fetchDepartments(collegeId: String) {
+<<<<<<< HEAD
         val url = "http://192.168.103.54/UniValut/fetch_departments_by_college.php?college_id=$collegeId"
+=======
+        val url = "https://api-9buk.onrender.com/fetch_departments_by_college.php?college_id=$collegeId"
+>>>>>>> 6d2b464 (grades pages)
 
         val request = Request.Builder().url(url).get().build()
 
@@ -169,7 +192,11 @@ class RegisterActivity : AppCompatActivity() {
         yearOfStudy: String,
         college: String
     ) {
+<<<<<<< HEAD
         val url = "http://192.168.103.54/UniValut/register.php"
+=======
+        val url = "https://api-9buk.onrender.com/register-smtp.php"
+>>>>>>> 6d2b464 (grades pages)
 
         val json = JSONObject().apply {
             put("full_name", fullName)

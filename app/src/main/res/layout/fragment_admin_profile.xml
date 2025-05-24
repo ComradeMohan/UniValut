@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#F9FAFB"
     android:padding="16dp">
@@ -123,14 +123,6 @@
                     android:background="@android:color/transparent"
                     android:textColor="#111827"
                     android:enabled="false"/>
-
-                <ImageButton
-                    android:id="@+id/btnEditName"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@android:drawable/ic_menu_edit"
-                    android:background="@android:color/transparent"
-                    android:layout_alignParentEnd="true"/>
             </RelativeLayout>
         </LinearLayout>
 
@@ -170,6 +162,7 @@
                     android:layout_height="24dp"
                     android:src="@android:drawable/ic_menu_edit"
                     android:background="@android:color/transparent"
+                    android:textColor="#111827"
                     android:layout_alignParentEnd="true"/>
             </RelativeLayout>
         </LinearLayout>
@@ -225,7 +218,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Department"
+                android:text="College Name"
                 android:textColor="#6B7280"
                 android:textSize="12sp"/>
 
@@ -242,15 +235,10 @@
                     android:layout_height="wrap_content"
                     android:hint="Enter Department"
                     android:background="@android:color/transparent"
+                    android:textColor="#111827"
                     android:enabled="false"/>
 
-                <ImageButton
-                    android:id="@+id/btnEditDepartment"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@android:drawable/ic_menu_edit"
-                    android:background="@android:color/transparent"
-                    android:layout_alignParentEnd="true"/>
+
             </RelativeLayout>
         </LinearLayout>
 
@@ -282,16 +270,45 @@
                     android:layout_height="wrap_content"
                     android:hint="Enter Employee ID"
                     android:background="@android:color/transparent"
+                    android:textColor="#111827"
                     android:enabled="false"/>
 
-                <ImageButton
-                    android:id="@+id/btnEditEmployeeId"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@android:drawable/ic_menu_edit"
-                    android:background="@android:color/transparent"
-                    android:layout_alignParentEnd="true"/>
+
             </RelativeLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/logoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/divider4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_logout" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:text="Logout"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
         </LinearLayout>
 
     </LinearLayout>

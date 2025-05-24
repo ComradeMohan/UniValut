@@ -7,13 +7,19 @@
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="@drawable/bg_gradient_dark_svg"
         android:padding="20dp">
 
-        <LinearLayout
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+<<<<<<< HEAD
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@android:color/white">
+=======
             android:orientation="vertical">
+>>>>>>> 6d2b464 (grades pages)
 
             <!-- Title -->
             <TextView
@@ -21,19 +27,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Courses"
+                android:textColor="@color/blue_focus"
                 android:textSize="26sp"
+<<<<<<< HEAD
                 android:textStyle="bold"
                 android:textColor="#1C1C1E" />
+=======
+                android:textStyle="bold" />
+>>>>>>> 6d2b464 (grades pages)
 
             <!-- Subtitle -->
             <TextView
                 android:id="@+id/textViewSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="Find your next learning journey"
-                android:textSize="16sp"
                 android:textColor="#6e6e73"
-                android:layout_marginTop="4dp"/>
+                android:textSize="16sp" />
 
             <!-- Search Bar -->
             <EditText
@@ -41,40 +52,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
-                android:hint="Search courses..."
+                android:background="@drawable/search_background"
                 android:drawableStart="@android:drawable/ic_menu_search"
                 android:drawablePadding="12dp"
+                android:hint="Search courses..."
+                android:inputType="text"
                 android:paddingHorizontal="16dp"
-                android:textColor="#000000"
-                android:textColorHint="#9E9E9E"
-                android:background="@drawable/search_background"
-                android:inputType="text" />
+                android:textColor="?attr/app_name_color"
+                android:textColorHint="#9E9E9E" />
 
-
+            <!-- Scrollable Course List -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewCourses"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginTop="20dp"
-                android:nestedScrollingEnabled="false"
-                android:background="#FFFFFF"
-
-                />
-
-
-            <!-- Course Cards -->
-
+                android:layout_weight="1"/>
         </LinearLayout>
+
     </ScrollView>
 
-    <!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-    <!--        android:id="@+id/bottomNavigationView"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_alignParentBottom="true"-->
-    <!--        android:background="#FFFFFF"-->
-    <!--        app:itemIconTint="@color/bottom_nav_selector"-->
-    <!--        app:itemTextColor="@color/bottom_nav_selector"-->
-    <!--        app:labelVisibilityMode="labeled"-->
-    <!--        app:menu="@menu/bottom_nav_menu" />-->
+
 </RelativeLayout>

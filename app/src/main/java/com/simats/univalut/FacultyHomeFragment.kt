@@ -2,8 +2,8 @@ package com.simats.univalut
 
 import CourseFragment
 import android.content.Intent
-import android.os.Bundle
 import android.os.AsyncTask
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +11,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.replace
-import com.simats.univalut.databinding.FragmentAdminHomeBinding
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.simats.univalut.databinding.FragmentFacultyHomeBinding
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -23,20 +23,26 @@ import java.net.URL
 class FacultyHomeFragment : Fragment() {
 
     private var facultyId: String? = null
-    private var collegeName: String? = null  // To store the fetched college name
+    private var collegeName: String? = null
+
+    private lateinit var tvNoticeTitle: TextView
+    private lateinit var tvNoticeDescription: TextView
 
     private var _binding: FragmentFacultyHomeBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view = inflater.inflate(R.layout.fragment_faculty_home, container, false)
 
-        // Get faculty ID from fragment arguments
         facultyId = arguments?.getString("ID")
         val facultyNameTextView: TextView = view.findViewById(R.id.facultyNameTextView)
 
-        // Fetch faculty name and college name from server
+        tvNoticeTitle = view.findViewById(R.id.tvNoticeTitle)
+        tvNoticeDescription = view.findViewById(R.id.tvNoticeDescription)
+
         facultyId?.let {
             FacultyNameTask(facultyNameTextView, this).execute(it)
         }
@@ -44,7 +50,7 @@ class FacultyHomeFragment : Fragment() {
         val notificationIcon: View = view.findViewById(R.id.notificationIcon)
         notificationIcon.setOnClickListener {
             val intent = Intent(requireContext(), StudentNotificationsActivity::class.java)
-            intent.putExtra("college", collegeName) // Pass college name to the next activity
+            intent.putExtra("college", collegeName)
             startActivity(intent)
         }
 
@@ -53,35 +59,72 @@ class FacultyHomeFragment : Fragment() {
             if (collegeName != null) {
                 val courseFragment = CourseFragment.newInstanceWithCollegeName(collegeName!!)
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, courseFragment) // replace with your actual container ID
+                    .replace(R.id.fragment_container, courseFragment)
                     .addToBackStack(null)
                     .commit()
             } else {
                 Toast.makeText(requireContext(), "College name not available", Toast.LENGTH_SHORT).show()
             }
         }
+
         val sendAnnounce: LinearLayout = view.findViewById(R.id.sendAnnouncementButton)
         sendAnnounce.setOnClickListener {
-            val calender =  StudentCalenderFragment()
+            val calendar = if (!collegeName.isNullOrEmpty()) {
+                // If collegeName is available, pass it directly
+                StudentCalenderFragment.newInstance(studentID = "", collegeName = collegeName)
+            } else {
+                // If collegeName is not available, pass only studentID
+                StudentCalenderFragment.newInstance(studentID = facultyId ?: "")
+            }
+
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container,calender)
+                .replace(R.id.fragment_container, calendar)
                 .addToBackStack(null)
                 .commit()
+
         }
+
 
         return view
     }
 
-    // AsyncTask to fetch faculty name and college from server
+    private fun fetchLatestNotice(college: String) {
+        val url = "http://192.168.103.54/UniValut/get_latest_notice.php?college=$college"
+        val ctx = context ?: return
+        val queue = Volley.newRequestQueue(ctx)
+
+        val jsonObjectRequest = JsonObjectRequest(
+            com.android.volley.Request.Method.GET, url, null,
+            { response ->
+                if (!isAdded) return@JsonObjectRequest
+                val success = response.getBoolean("success")
+                if (success) {
+                    val title = response.getString("title")
+                    val description = response.getString("description")
+                    tvNoticeTitle.text = title
+                    tvNoticeDescription.text = description
+                } else {
+                    tvNoticeTitle.text = "No Notices"
+                    tvNoticeDescription.text = ""
+                }
+            },
+            {
+                if (!isAdded) return@JsonObjectRequest
+                tvNoticeTitle.text = "Error"
+                tvNoticeDescription.text = "Failed to fetch notice."
+            }
+        )
+        queue.add(jsonObjectRequest)
+    }
+
     private class FacultyNameTask(
         private val facultyNameTextView: TextView,
         private val fragment: FacultyHomeFragment
-    ) : AsyncTask<String, Void, Pair<String, String>>() {
+    ) : AsyncTask<String, Void, Pair<String, String>?>() {
 
         override fun doInBackground(vararg params: String?): Pair<String, String>? {
             val facultyId = params[0] ?: return null
             val urlString = "http://192.168.103.54/UniValut/get_faculty_name.php?facultyId=$facultyId"
-
             return try {
                 val url = URL(urlString)
                 val connection = url.openConnection() as HttpURLConnection
@@ -98,13 +141,10 @@ class FacultyHomeFragment : Fragment() {
 
                 val jsonResponse = JSONObject(response.toString())
                 if (jsonResponse.getBoolean("success")) {
-                    // Return both faculty name and college name
                     val facultyName = jsonResponse.getString("name")
                     val collegeName = jsonResponse.getString("college")
                     Pair(facultyName, collegeName)
-                } else {
-                    null
-                }
+                } else null
             } catch (e: Exception) {
                 null
             }
@@ -114,8 +154,9 @@ class FacultyHomeFragment : Fragment() {
             super.onPostExecute(result)
             if (result != null) {
                 val (facultyName, collegeName) = result
-                facultyNameTextView.text = facultyName  // Set the faculty name
-                fragment.collegeName = collegeName  // Store the college name in the fragment
+                facultyNameTextView.text = facultyName
+                fragment.collegeName = collegeName
+                fragment.fetchLatestNotice(collegeName)
             } else {
                 Toast.makeText(facultyNameTextView.context, "Failed to fetch faculty name", Toast.LENGTH_SHORT).show()
             }
@@ -126,7 +167,7 @@ class FacultyHomeFragment : Fragment() {
         fun newInstance(id: String): Fragment {
             val fragment = FacultyHomeFragment()
             val args = Bundle()
-            args.putString("ID", id)  // Corrected the argument key to "ID" instead of "adminId"
+            args.putString("ID", id)
             fragment.arguments = args
             return fragment
         }

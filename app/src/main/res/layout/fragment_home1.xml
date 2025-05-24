@@ -1,20 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:layout_width="match_parent"
+<<<<<<< HEAD
     android:layout_height="match_parent">
+=======
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient_dark_svg"
+    android:orientation="vertical">
+>>>>>>> 6d2b464 (grades pages)
 
+    <!-- ScrollView to allow scrolling when content exceeds screen size -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFFFFF">
 
+<<<<<<< HEAD
+=======
+        <!-- Greeting Section -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/header_gradient"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/tvGreeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Good Morning,"
+                android:textSize="22sp"
+                android:textColor="?attr/app_name_color"
+                android:fontFamily="sans-serif" />
+
+            <TextView
+                android:id="@+id/tvStudentName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mohan Reddy"
+                android:paddingLeft="20dp"
+                android:layout_below="@id/tvGreeting"
+                android:layout_marginTop="4dp"
+                android:textStyle="bold"
+                android:textSize="26sp"
+                android:textColor="?attr/app_name_color"
+                android:fontFamily="sans-serif-medium" />
+
+            <ImageView
+                android:id="@+id/notificationIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="2dp"
+                android:layout_centerVertical="true"
+                android:contentDescription="Notification Icon"
+                android:src="@drawable/ic_notifications" />
+
+        </RelativeLayout>
+    </LinearLayout>
+        <!-- Search Bar -->
+>>>>>>> 6d2b464 (grades pages)
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+<<<<<<< HEAD
             android:padding="16dp">
+=======
+            android:paddingHorizontal="15dp">
+        <!-- Announcement Card -->
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/search_background"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:hint="pending courses"
+            android:textColor="?attr/app_name_color"
+            android:imeOptions="actionSearch"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp" />
+>>>>>>> 6d2b464 (grades pages)
 
+            <!-- Greeting and Notification Section -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,6 +131,7 @@
                     android:src="@drawable/ic_notifications" />
             </RelativeLayout>
 
+            <!-- Search Bar -->
             <EditText
                 android:id="@+id/etSearch"
                 android:layout_width="match_parent"
@@ -70,7 +144,7 @@
                 android:layout_marginBottom="16dp"
                 android:imeOptions="actionSearch"  />
 
-
+            <!-- Notification Section (e.g. Announcements) -->
             <LinearLayout
                 android:id="@+id/notification_background"
                 android:layout_width="match_parent"
@@ -97,271 +171,50 @@
                     android:textSize="16sp"
                     android:textColor="#ffff"
                     android:layout_marginTop="8dp" />
-
             </LinearLayout>
 
+            <!-- Title for Pending Courses Section -->
             <TextView
-                android:text="Your Courses"
+                android:text="Your Pending Courses"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:layout_marginBottom="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
+            <!-- RecyclerView for Pending Courses -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPendingSubjects"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/course_card_bg"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:id="@+id/tvCourseCode1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/tag_bg"
-                        android:padding="4dp"
-                        android:text="CSA0123"
-                        android:textColor="#FFFFFF"
-                        android:textSize="12sp" />
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="4 Credits"
-                        android:textColor="#888888"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tvCourseCode2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Subject Name"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Instructor: Dr. Rajesh Patel"
-                    android:textColor="#666666"
-                    android:textSize="14sp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
-                    android:text="Class Room"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="Monday, 8:00 AM - 11:00 AM"
-                        android:textSize="13sp"
-                        android:textColor="#000000"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="Room 201, CS Block"
-                        android:textSize="13sp"
-
-                        android:textColor="#000000"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="2 Materials"
-                        android:textSize="13sp"
-
-                        android:textColor="#000000"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="4dp"
-                        android:text="1 New"
-                        android:textColor="#FFFFFF"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/course_card_bg"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:id="@+id/tvCourseCode3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/tag_bg"
-                        android:padding="4dp"
-                        android:text="CSA0123"
-                        android:textColor="#FFFFFF"
-                        android:textSize="12sp" />
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="4 Credits"
-                        android:textColor="#888888"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Subject Name"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Instructor: Dr. Rajesh Patel"
-                    android:textColor="#666666"
-                    android:textSize="14sp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
-                    android:text="Class Room"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-
-                    android:textColor="#000000"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="Monday, 8:00 AM - 11:00 AM"
-                        android:textSize="13sp"
-
-                        android:textColor="#000000"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="Room 201, CS Block"
-                        android:textSize="13sp"
-
-                        android:textColor="#000000"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="2 Materials"
-                        android:textSize="13sp"
-
-                        android:textColor="#000000"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="4dp"
-                        android:text="1 New"
-                        android:textColor="#FFFFFF"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </LinearLayout>
+            android:layout_marginTop="16dp"
+            android:nestedScrollingEnabled="false"
+            android:padding="8dp" />
         </LinearLayout>
-
     </ScrollView>
 
-
+<<<<<<< HEAD
 </RelativeLayout>
+=======
+        <!-- Section Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Pending Courses"
+            android:textColor="?attr/app_name_color"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp" />
+    </LinearLayout>
+
+    <!-- RecyclerView (Full Height, Scrolls independently) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPendingSubjects"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="10dp"
+        android:padding="8dp"
+        android:clipToPadding="false" />
+</LinearLayout>
+>>>>>>> 6d2b464 (grades pages)
